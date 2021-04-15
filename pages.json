@@ -1,0 +1,84 @@
+{
+	"easycom": {
+			"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+		},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path":"pages/index/index",
+			"style":{
+				"enablePullDownRefresh":true,
+				"navigationBarTitleText":"贴吧",
+				"navigationStyle": "custom" 
+			}
+		},{
+			"path":"pages/jinba/jinba"
+		},{
+			"path":"pages/channel/channel"
+		},{
+			"path":"pages/news/news"
+		},{
+			"path":"pages/user/user"
+		},{
+			"path":"pages/fatie/fatie",
+			"style":{
+				 "app-plus": {
+				        "animationType": "slide-in-bottom",
+				        "animationDuration": 300
+				    }
+			}
+		},{
+            "path" : "pages/tiezicontent/tiezicontent",
+			"style":{
+				"app-plus": {
+				    "softinputMode": "adjustResize"
+				}
+			}
+        },{
+			"path":"pages/login/login"
+		}
+        ,{
+            "path" : "pages/topic/topic",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar":{
+		"backgroundColor":"#fff",
+		"list":[{
+			"pagePath":"pages/index/index",
+			"text":"首页",
+			"iconPath":"static/tabbar/home.png",
+			"selectedIconPath":"static/tabbar/home2.png"
+		},{
+			"pagePath":"pages/jinba/jinba",
+			"text":"进吧",
+			"iconPath":"static/tabbar/jinba.png",
+			"selectedIconPath":"static/tabbar/jinba2.png"
+		},{
+			"pagePath":"pages/channel/channel",
+			"text":"频道",
+			"iconPath":"static/tabbar/channel.png",
+			"selectedIconPath":"static/tabbar/channel2.png"
+		},{
+			"pagePath":"pages/news/news",
+			"text":"消息",
+			"iconPath":"static/tabbar/news.png",
+			"selectedIconPath":"static/tabbar/news2.png"
+		},{
+			"pagePath":"pages/user/user",
+			"text":"我的",
+			"iconPath":"static/tabbar/user.png",
+			"selectedIconPath":"static/tabbar/user2.png"
+		}]
+	}
+}

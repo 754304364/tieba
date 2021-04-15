@@ -1,0 +1,57 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/jinba/jinba",
+    "pages/channel/channel",
+    "pages/news/news",
+    "pages/user/user",
+    "pages/fatie/fatie",
+    "pages/tiezicontent/tiezicontent",
+    "pages/login/login",
+    "pages/topic/topic"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home2.png"
+      },
+      {
+        "pagePath": "pages/jinba/jinba",
+        "text": "进吧",
+        "iconPath": "static/tabbar/jinba.png",
+        "selectedIconPath": "static/tabbar/jinba2.png"
+      },
+      {
+        "pagePath": "pages/channel/channel",
+        "text": "频道",
+        "iconPath": "static/tabbar/channel.png",
+        "selectedIconPath": "static/tabbar/channel2.png"
+      },
+      {
+        "pagePath": "pages/news/news",
+        "text": "消息",
+        "iconPath": "static/tabbar/news.png",
+        "selectedIconPath": "static/tabbar/news2.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "static/tabbar/user.png",
+        "selectedIconPath": "static/tabbar/user2.png"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
+}

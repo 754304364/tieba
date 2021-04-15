@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "comments": "/components/comments/comments",
+    "reply": "/components/reply/reply"
+  }
+}

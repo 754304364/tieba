@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup",
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast"
+  },
+  "component": true
+}
