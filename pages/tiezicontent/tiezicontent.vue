@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<h3 class="title">{{data.title}}</h3>
+		<rich-text :nodes="data.title" class="title"></rich-text>
 		<view class="userdata">
 			<view class="user-img">
 				<image :src="data.userimg" alt="">

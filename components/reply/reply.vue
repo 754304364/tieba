@@ -120,21 +120,6 @@
 				})
 			},
 			//字符转换
-			utf16toEntities(str) {
-			    var patt=/[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
-			    str = str.replace(patt, function(char){
-			            var H, L, code;
-			            if (char.length===2) {
-			                H = char.charCodeAt(0); // 取出高位
-			                L = char.charCodeAt(1); // 取出低位
-			                code = (H - 0xD800) * 0x400 + 0x10000 + L - 0xDC00; // 转换算法
-			                return "&#" + code + ";";
-			            } else {
-			                return char;
-			            }
-			        });
-			    return str;
-			},
 			change(e){
 				if(e.show === false){
 					this.$store.commit('updateReplyShow',false)
@@ -190,8 +175,8 @@
 						this.editorCtx = res.context
 						res.context.getContents({
 							success:res =>{
-								this.textarea = this.utf16toEntities(res.html)
-								resolve(this.utf16toEntities(res.html))
+								this.textarea = this.$global(res.html)
+								resolve(this.$global(res.html))
 							}
 						})
 					}).exec()

@@ -99,10 +99,10 @@ try {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-navbar/u-navbar */ "node-modules/uview-ui/components/u-navbar/u-navbar").then(__webpack_require__.bind(null, /*! uview-ui/components/u-navbar/u-navbar.vue */ 112))
     },
     uMask: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-mask/u-mask */ "node-modules/uview-ui/components/u-mask/u-mask").then(__webpack_require__.bind(null, /*! uview-ui/components/u-mask/u-mask.vue */ 234))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-mask/u-mask */ "node-modules/uview-ui/components/u-mask/u-mask").then(__webpack_require__.bind(null, /*! uview-ui/components/u-mask/u-mask.vue */ 119))
     },
     uTabsSwiper: function() {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabs-swiper/u-tabs-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabs-swiper/u-tabs-swiper")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue */ 119))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabs-swiper/u-tabs-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabs-swiper/u-tabs-swiper")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabs-swiper/u-tabs-swiper.vue */ 126))
     }
   }
 } catch (e) {
@@ -164,7 +164,12 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var follow = function follow() {__webpack_require__.e(/*! require.ensure | components/home/follow */ "components/home/follow").then((function () {return resolve(__webpack_require__(/*! ../../components/home/follow.vue */ 126));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var recommend = function recommend() {__webpack_require__.e(/*! require.ensure | components/home/recommend/recommend */ "components/home/recommend/recommend").then((function () {return resolve(__webpack_require__(/*! ../../components/home/recommend/recommend.vue */ 131));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var follow = function follow() {__webpack_require__.e(/*! require.ensure | components/home/follow */ "components/home/follow").then((function () {return resolve(__webpack_require__(/*! ../../components/home/follow.vue */ 133));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var recommend = function recommend() {__webpack_require__.e(/*! require.ensure | components/home/recommend/recommend */ "components/home/recommend/recommend").then((function () {return resolve(__webpack_require__(/*! ../../components/home/recommend/recommend.vue */ 140));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
 
 
 
@@ -242,11 +247,17 @@ __webpack_require__.r(__webpack_exports__);
       tabs: [1, 2, 3, 4, 5],
       current: 1, // tabs组件的current值，表示当前活动的tab选项
       swiperCurrent: 1, // swiper组件的current值，表示当前那个swiper-item是活动的
-      maskShow: false };
+      maskShow: false,
+      followShow: false };
 
   },
   components: {
     recommend: recommend, follow: follow },
+
+  watch: {
+    current: function current() {
+      this.followShow = true;
+    } },
 
   onPullDownRefresh: function onPullDownRefresh() {
     setTimeout(function () {

@@ -50,6 +50,21 @@ page.data-v-57280228 {
   height: 30px;
   line-height: 30px;
 }
+.content .rect.data-v-57280228 {
+  position: fixed;
+  z-index: 999;
+  right: 15rpx;
+  background-color: #000;
+  width: 100px;
+  -webkit-border-radius: 5px;
+          border-radius: 5px;
+  color: #fff;
+  text-align: center;
+}
+.content .rect .text.data-v-57280228 {
+  height: 40px;
+  line-height: 40px;
+}
 .swiper.data-v-57280228 {
   min-height: calc(100vh - 90px);
 }

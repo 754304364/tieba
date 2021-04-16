@@ -6,10 +6,18 @@
 				<text>搜索</text>
 			</view>
 			<view class="top-navbar-btn" slot="right" @click="reply">发布</view>
-			<view class="" style="position: absolute;margin-top: 40px;right: 0;">
-				<u-mask v-if='maskShow' :show="maskShow" @click="maskShow = false"></u-mask>
-			</view>
+			<!-- 点击右上角出现遮罩层 -->
+				<u-mask class="warp" v-if='maskShow' :custom-style="{background: 'rgba(0, 0, 0, 0.2)'}" :show="maskShow" @click="maskShow = false"></u-mask>
 		</u-navbar>
+		<view class="rect"  v-show="maskShow">
+			<view class="rect-li" @click="toFatie"><u-image class='rect-image' src="../../static/fatie.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">发帖</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="../../static/tupian_image.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">图片/视频</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="../../static/Shoot.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">拍摄</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="../../static/Live.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">直播</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="../../static/vote.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">投票</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="../../static/evaluation.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">评价</text></view>
+		</view>
+		
 		
 		<u-tabs-swiper
 		ref="uTabs" 
@@ -89,8 +97,20 @@
 			}, 1000);
 		},
 		methods:{
+			//点击 右上角 发布 事件
 			reply(){
 				this.maskShow = true
+			},
+			toFatie(){
+				if(!this.$store.state.login){
+					uni.navigateTo({
+						url:'../login/login'
+					})
+				}else{
+					uni.navigateTo({
+						url:'../fatie/fatie'
+					})
+				}
 			},
 			// tabs通知swiper切换
 			tabsChange(index) {
@@ -138,6 +158,30 @@
 				 color: #fff;
 				 height: 30px;
 				 line-height: 30px;
+			 }
+		 }
+		 
+		 .rect{
+			 position: fixed;
+			 z-index: 999;
+			 right: 15rpx;
+			 background-color: #000;
+			 border-radius: 10px;
+			 color: #fff;
+			 text-align: center;
+			 transition: all .3s;
+			 .rect-li{
+				 padding: 10px;
+				 height: 50px;
+				 border-bottom: .1px solid #606266;
+				 .rect-image{
+					 float: left;
+					 margin-right: 10px;
+				 }
+				 .text{
+					 line-height: 30px;
+					 float: left;
+				 }
 			 }
 		 }
 	 }

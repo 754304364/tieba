@@ -54,7 +54,7 @@
 				let requestArr= []
 				let arr =JSON.parse(JSON.stringify(this.user.followUser))
 				for(let i = 0;i<arr.length;i++){
-					requestArr[i] = this.$request(`/selectFollowActicle?id=${arr[i]}`)
+					requestArr[i] = this.$request(`/selectFollowActicle?id=${arr[i]}`,{},'get')
 				}
 				
 				Promise.all(requestArr).then(res =>{
@@ -84,7 +84,7 @@
 					let requestArr= []
 					let arr =JSON.parse(JSON.stringify(this.user.followUser))
 					for(let i = 0;i<arr.length;i++){
-						requestArr[i] = this.$request(`/selectFollowActicle?id=${arr[i]}`)
+						requestArr[i] = this.$request(`/selectFollowActicle?id=${arr[i]}`,{},'get')
 					}
 					
 					Promise.all(requestArr).then(res =>{

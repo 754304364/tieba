@@ -21,6 +21,7 @@
 		},{
 			"path":"pages/fatie/fatie",
 			"style":{
+				"navigationStyle": "custom" ,
 				 "app-plus": {
 				        "animationType": "slide-in-bottom",
 				        "animationDuration": 300

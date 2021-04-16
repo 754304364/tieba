@@ -96,10 +96,10 @@ var components
 try {
   components = {
     comments: function() {
-      return __webpack_require__.e(/*! import() | components/comments/comments */ "components/comments/comments").then(__webpack_require__.bind(null, /*! @/components/comments/comments.vue */ 138))
+      return __webpack_require__.e(/*! import() | components/comments/comments */ "components/comments/comments").then(__webpack_require__.bind(null, /*! @/components/comments/comments.vue */ 147))
     },
     reply: function() {
-      return __webpack_require__.e(/*! import() | components/reply/reply */ "components/reply/reply").then(__webpack_require__.bind(null, /*! @/components/reply/reply.vue */ 145))
+      return __webpack_require__.e(/*! import() | components/reply/reply */ "components/reply/reply").then(__webpack_require__.bind(null, /*! @/components/reply/reply.vue */ 154))
     }
   }
 } catch (e) {
@@ -156,7 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var comments = function comments() {__webpack_require__.e(/*! require.ensure | components/comments/comments */ "components/comments/comments").then((function () {return resolve(__webpack_require__(/*! ../../components/comments/comments.vue */ 138));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var reply = function reply() {__webpack_require__.e(/*! require.ensure | components/reply/reply */ "components/reply/reply").then((function () {return resolve(__webpack_require__(/*! ../../components/reply/reply.vue */ 145));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var comments = function comments() {__webpack_require__.e(/*! require.ensure | components/comments/comments */ "components/comments/comments").then((function () {return resolve(__webpack_require__(/*! ../../components/comments/comments.vue */ 147));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var reply = function reply() {__webpack_require__.e(/*! require.ensure | components/reply/reply */ "components/reply/reply").then((function () {return resolve(__webpack_require__(/*! ../../components/reply/reply.vue */ 154));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -281,7 +281,7 @@ __webpack_require__.r(__webpack_exports__);
       _this2.articleImg = _this2.data.img.split(',');
       //判断登录用户是否已经关注发帖人
       if (_this2.$store.state.login) {
-        var arr = _this2.$store.state.user.followUser.split(',');
+        var arr = _this2.$store.state.user.followUser;
         if (arr.indexOf(_this2.data.userid + '') > -1) {
           _this2.follow = true;
           _this2.followText = '已关注';
@@ -300,7 +300,7 @@ __webpack_require__.r(__webpack_exports__);
   onShow: function onShow() {
     //判断登录用户是否已经关注发帖人
     if (this.$store.state.login) {
-      var arr = this.$store.state.user.followUser.split(',');
+      var arr = this.$store.state.user.followUser;
       if (arr.indexOf(this.data.userid + '') > -1) {
         this.follow = true;
         this.followText = '已关注';

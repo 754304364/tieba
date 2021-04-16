@@ -1,14 +1,43 @@
 <template>
 	<view>
+		<!-- 顶部自定义导航栏区域 -->
+		<u-navbar back-icon-name='close'  title="发布帖子">
+			<u-button 
+			class="top-navbar-btn" 
+			slot="right" 
+			:hair-line=false
+			@click="publish" 
+			:disabled="title === '' && textarea === '' && imgPath.length ===0"
+			:style="{color:title === '' && textarea === '' && imgPath.length ===0 ? '#a0cfff' : '#2979ff'}">
+			发布
+			</u-button>
+		</u-navbar>
+		<!-- 选择吧 -->
+		<view class="select-acticle" @click="changeActicle">
+			<u-icon name='more-circle'></u-icon>
+			<text style="margin:0 10px;">{{topicName}}</text>
+			<text class="select-prompt" v-if="topicId === null">选择合适的吧会有更多的点赞哦~</text>
+			<view style="float: right;"><u-icon name='arrow-right'></u-icon></view>
+		</view>
+		
 		<input class="title" type="text" placeholder="这个帖子火就差这个标题了" v-model="title"/>
 		<view class="container">
 			<textarea v-model="textarea" class="txt" style="height: auto !important;" placeholder="来吧 , 尽情发挥吧..."></textarea>
 		</view>
+		<!-- 添加的图片显示区域 -->
 		<view class="addImg">
 			<image class="image" v-for="(item,index) of imgPath" :src="item" mode='aspectFill' :key='index' @click="previewImage(item)"></image>
 			<view @click="addImage"  class="add"><image class="img" src="../../static/add.png" ></image></view>
 		</view>
-		<button type="default" size="mini"  :disabled="title === '' && textarea === '' && imgPath.length ===0" @click="publish">发布</button>
+		
+		<!-- 弹出层  选择 吧 -->
+		<u-popup mode="bottom" height="90%" border-radius=20 v-model="popupShow">
+			<view class="popup-top"> <text style="float: left;" @click="popupShow = false">取消</text> <text>选择吧</text> </view>
+			<view class="topic-list" v-for="(item,index) in topicArr" :key='index' @click="selectTopic(item)">
+				<view class="topic-image"><u-image :src='item.img' width='50px' height='50px' border-radius='15px'></u-image></view>
+				<view><text>{{item.name}}</text></view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -18,85 +47,89 @@
 		name:"fatie",
 		data() {
 			return {
-				title:'',
-				textarea:'',
-				fontSize: '13px',
-				imgnum:0,
-				imgPath:[],
-				serverImgPath:[],
-				imgNum:0  //记录图片有没有上传完成
+				popupShow:false, //弹出层是否显示
+				topicId:null,
+				topicName:'选择吧',
+				title:'',   // 输入的 帖子 标题
+				textarea:'',  //  输入的帖子正文   	
+				imgnum:0,  //  选择的图片数量
+				imgPath:[],  //  选择的图片 的 路径数组
+				serverImgPath:[],  //  服务器返回的 图片 路径 数组
+				imgNum:0  ,//记录图片有没有上传完成,
+				topicArr:[], // 吧列表
+				
 			};
+		},
+		created() {
+			this.$request('/topic',{},'get').then( res =>{
+				this.topicArr = res
+			})
 		},
 		watch:{
 			imgNum(val){
 				if(this.imgNum === this.imgPath.length){
-					console.log(this.serverImgPath)
-					let myDate = new Date();
-					this.$request('/postArticle',{
-					topicid:4,
-					title:this.title,
-					txt:this.textarea,
-					img:''+this.serverImgPath,
-					userid:this.$store.state.user.id,
-					username:this.$store.state.user.name,
-					userimg:this.$store.state.user.img,
-					time:myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate()+" "+myDate.getHours()+":"+myDate.getMinutes(),
-					second:new Date().getTime()
-					},'post').then(res =>{
-						console.log(res)
-					})
+					this.release()
 				}
 			}
 		},
 		methods:{
-			publish(){
-				
-				if(this.imgPath.length > 0){
-					for(let i of this.imgPath){
-						uni.uploadFile({
-							url:"http://101.132.235.218:4000/api/imgacticle",
-							  filePath:i,
-							  name:'avatar',	
-							  success: (res) => {
-								  // this.serverImgPath += res.data+','
-								  this.serverImgPath.push(res.data)
-								  this.imgNum ++
-							  }
-						})
+			// 发送 帖子 功能
+			release(){
+				let myDate = new Date();
+				this.$request('/postArticle',{
+				topicid:this.topicId,
+				title:this.$global(this.title),
+				txt:this.$global(this.textarea),
+				img:''+this.serverImgPath,
+				userid:this.$store.state.user.id,
+				username:this.$store.state.user.name,
+				userimg:this.$store.state.user.img,
+				time:myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate()+" "+myDate.getHours()+":"+myDate.getMinutes(),
+				second:new Date().getTime()
+				},'post').then(res =>{
+					if(res === 0){
+						uni.showToast({
+						    title: '发送成功',
+							icon:'success',
+						    duration: 1000,
+							success() {
+								setTimeout(()=>{
+									uni.switchTab({
+									    url: '/pages/index/index'
+									});
+								},1000)
+							}
+						});
 					}
+				})
+			},
+			//选择发布的贴吧
+			selectTopic(item){
+				this.topicId = item.id
+				this.topicName = item.name
+				this.popupShow = false
+			},
+			// 导航栏发布按钮
+			publish(){
+				if(this.topicId === null){
+					this.popupShow = true
 				}else{
-					let myDate = new Date();
-					this.$request('/postArticle',{
-					topicid:1,
-					title:this.title,
-					txt:this.textarea,
-					img:''+this.serverImgPath,
-					userid:this.$store.state.user.id,
-					username:this.$store.state.user.name,
-					userimg:this.$store.state.user.img,
-					time:myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate()+" "+myDate.getHours()+":"+myDate.getMinutes(),
-					second:new Date().getTime()
-					},'post').then(res =>{
-						console.log(res)
-					})
+					if(this.imgPath.length > 0){
+						for(let i of this.imgPath){
+							uni.uploadFile({
+								url:"http://101.132.235.218:4000/api/imgacticle",
+								  filePath:i,
+								  name:'avatar',	
+								  success: (res) => {
+									  this.serverImgPath.push(res.data)
+									  this.imgNum ++
+								  }
+							})
+						}
+					}else{
+						this.release()
+					}		
 				}
-				// if(this.imgNum === this.imgPath.length){
-				// 	console.log(this.serverImgPath)
-				// }
-				// if(this.imgNum === this.imgPath.length){
-				// 	this.$request('/postArticle',{
-				// 	baid:1,
-				// 	title:this.title,
-				// 	txt:this.textarea,
-				// 	img:this.serverImgPath,
-				// 	// userid:this.$store.state.user.account,
-				// 	userid:754304364,
-				// 	time:myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate()+" "+myDate.getHours()+":"+myDate.getMinutes(),
-				// 	second:new Date().getTime()
-				// 	},'post').then(res =>{
-				// 		console.log(res)
-				// 	})
-				// }
 				
 			},
 			//添加图片
@@ -121,6 +154,9 @@
 					indicator:"default",
 					loop:true
 				})
+			},
+			changeActicle(){
+				this.popupShow = true
 			}
 		}
 	}
@@ -129,7 +165,23 @@
 
 <style lang="scss">
 	page{
-		padding: 15rpx;
+		padding:0 15rpx;
+		background-color: #fff;
+	}
+	.top-navbar-btn{
+		border: none !important;
+		background-color: #fff !important;
+		padding: 0 15rpx;
+		font-size: 16px;
+	}
+	.select-acticle{
+		height: 40px;
+		line-height: 40px;
+		.select-prompt{
+			padding: 5px 10px;
+			border-radius: 10px;
+			background-color: rgb(245,245,245);
+		}
 	}
 	.title{
 		height: 40px;
@@ -184,6 +236,21 @@
 			// background-image: url(../../static/add.png);
 			// background-size: cover;
 		}
-		//添加图片
+	}
+	
+	.popup-top{
+		height: 40px;
+		padding: 15px;
+		text-align: center;
+	}
+	.topic-list{
+		height: 50px;
+		margin: 20px 0 10px 15px;
+		line-height: 50px;
+		font-size: 16px;
+		.topic-image{
+			float: left;
+			margin-right: 20px;
+		}
 	}
 </style>

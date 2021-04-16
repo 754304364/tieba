@@ -27,7 +27,7 @@
 					 <view v-for="(src,num) in (item.img)" :key='num' style="float: left;">
 					 	 <image
 					 	 class="article-img"
-					 	  v-if="num < 3 || item.img"
+					 	  v-if="num < 3 && item.img"
 					 	  :style="{width:(item.img).length<2 ? '450rpx' : '220rpx',height:(item.img).length<2 ? '500rpx' : '220rpx'}"  
 					 	  :src="src"
 					 	  mode="aspectFill"
