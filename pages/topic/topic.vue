@@ -10,33 +10,16 @@
 			</view>
 		</view>
 		
+		<!-- 最新 - 精华 分类 -->
 		<view>
 			<text v-for="(item,index) in topicClass" :key="index">{{item}}</text>
 		</view>
 		<view class="container"  @touchmove='touchmove($event)' @touchstart='touchstart($event)' @touchend='touchend($event)'>
+			<!--  最新 -->
 			<view class="item new-article" :class="{transition:transition}" :style="{marginLeft:left + 'px'}">
-				<view v-for='(item,index) in article' class="article" :key='index' @click="toArticle(item.id)">
-					<image class="user-img" :src="item.userimg"></image>
-					<view class="user-data">
-						<view>{{item.username}}</view>
-						<view>{{item.time}}</view>
-					</view>
-					<view class="article-content">
-						
-						<rich-text class="rich-text" :nodes="item.txt"></rich-text>
-						<image
-						class="article-img"
-						 v-for="(src,num) of (item.img).split(',')" 
-						 v-if="num < 3&&item.img !== ''"
-						 :style="{width:(item.img).split(',').length<2 ? '450rpx' : '210rpx',height:(item.img).split(',').length<2 ? '700rpx' : '220rpx'}"  
-						 :src="src"
-						 mode="aspectFill" 
-						 @click.stop="previewImage(articlImg[index],src)"
-						 :key='num'>
-						 </image>
-					</view>
-				</view>
+				<acticle-content v-for='(item,index) in article' :key='index' :res='item'></acticle-content>
 			</view>
+			<!-- 精华 -->
 			<view class="item" style="background-color: blue;" >
 				<view v-for='(item,index) in article'  :key='index' >
 					{{item.txt}}
@@ -47,6 +30,7 @@
 </template>
 
 <script>
+	import acticleContent from '../../components/acticleContent.vue'
 	export default {
 		data() {
 			return {
@@ -63,6 +47,7 @@
 				followTxt:'关注' //关注按钮的文字
 			};
 		},
+		components:{acticleContent},
 		onLoad(date) {
 			uni.showLoading({
 			    title: '加载中'
@@ -73,8 +58,8 @@
 				this.topicData = res
 				//判断登录用户是否关注 吧
 				if(this.$store.state.login == true){
-					let arr= this.$store.state.user.followTopic.split(',')
-					if(arr.indexOf(this.topicData.id+'')> -1){
+					let arr= this.$store.state.user.followTopic
+					if(arr !==false && arr.indexOf(this.topicData.id+'')> -1){
 						this.followTxt ='已关注'
 					}
 				}
@@ -84,16 +69,12 @@
 				topicid:date.id
 			},'post').then(res=>{
 				this.article = res
-				// console.log(res)
-				for(let i = 0;i<res.length;i++){
-					this.articlImg[i] = res[i].img.split(',')
-				}
 			})
 		},
 		onShow() {
 			if(this.$store.state.login == true){
-				let arr= this.$store.state.user.followTopic.split(',')
-				if(arr.indexOf(this.topicData.id+'')> -1){
+				let arr= this.$store.state.user.followTopic
+				if(arr !==false && arr.indexOf(this.topicData.id+'')> -1){
 					this.followTxt ='已关注'
 				}
 			}
@@ -115,15 +96,6 @@
 			}
 		},
 		methods:{
-			//图片预览
-			previewImage(src,num){
-				uni.previewImage({
-					current:src[num],
-					urls:src,
-					indicator:"default",
-					loop:true
-				})
-			},
 			// 关注贴吧
 			followTopic(){
 				if(!this.$store.state.login){
@@ -145,7 +117,6 @@
 						}
 					})
 				}
-				
 			},
 			//点击跳转到帖子页面
 			toArticle(id){
@@ -206,9 +177,6 @@
 			}
 		}
 	}
-	
-	
-	
 	.container{
 		width: 750rpx;
 		box-sizing: border-box;
@@ -223,44 +191,7 @@
 		}
 		.new-article{
 			background-color: #ededed;
-			.article{
-				margin: 15rpx;
-				padding: 10px;
-				background-color: #fff;
-				border-radius: 10px;
-				&::after{
-					display: block;
-					content: "";
-					clear: both;
-				}
-				.user-img{
-					height: 40px;
-					width: 40px;
-					border-radius: 50%;
-				}
-				.user-data{
-					height: 40px;
-					line-height: 20px;
-					font-size: 14px;
-					margin-top: -44px;
-					margin-left: 50px;
-				}
-				.article-content{
-					font-size: 14px;
-					margin-top: 5px;
-					.rich-text{
-						display: -webkit-box;
-						-webkit-box-orient: vertical;
-						/*设置省略号在容器第四行文本后*/
-						-webkit-line-clamp: 3; 
-						overflow: hidden;
-					}
-					.article-img{
-						margin-right: 15rpx;
-						border-radius: 20rpx;
-					}
-				}
-			}
+			
 		}
 	}
 	

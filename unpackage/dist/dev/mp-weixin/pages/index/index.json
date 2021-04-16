@@ -5,6 +5,7 @@
   "usingComponents": {
     "u-navbar": "/node-modules/uview-ui/components/u-navbar/u-navbar",
     "u-mask": "/node-modules/uview-ui/components/u-mask/u-mask",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
     "u-tabs-swiper": "/node-modules/uview-ui/components/u-tabs-swiper/u-tabs-swiper",
     "recommend": "/components/home/recommend/recommend",
     "follow": "/components/home/follow"

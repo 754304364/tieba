@@ -12,7 +12,7 @@
 		<swiper :current="swiperCurrent" style="min-height: 100vh;" @transition="transition" @animationfinish="animationfinish">
 			<swiper-item class="swiper-item" >
 				<scroll-view scroll-y style="height: 100vh;width: 100%;">
-					
+					<my-topic></my-topic>
 				</scroll-view>
 			</swiper-item>
 			
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+	import myTopic from '../../components/home/my-topic.vue'
 	export default{
 		data(){
 			return{
@@ -51,6 +52,7 @@
 				topicClassSelected:0
 			}
 		},
+		components:{myTopic},
 		mounted() {
 			
 		},

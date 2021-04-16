@@ -25,7 +25,24 @@
 /* 透明度 */
 /* 文章场景相关 */
 page {
-  padding: 15rpx;
+  padding: 0 15rpx;
+  background-color: #fff;
+}
+.top-navbar-btn {
+  border: none !important;
+  background-color: #fff !important;
+  padding: 0 15rpx;
+  font-size: 16px;
+}
+.select-acticle {
+  height: 40px;
+  line-height: 40px;
+}
+.select-acticle .select-prompt {
+  padding: 5px 10px;
+  -webkit-border-radius: 10px;
+          border-radius: 10px;
+  background-color: whitesmoke;
 }
 .title {
   height: 40px;
@@ -74,5 +91,20 @@ page {
 .addImg .add .img {
   height: 40px;
   width: 40px;
+}
+.popup-top {
+  height: 40px;
+  padding: 15px;
+  text-align: center;
+}
+.topic-list {
+  height: 50px;
+  margin: 20px 0 10px 15px;
+  line-height: 50px;
+  font-size: 16px;
+}
+.topic-list .topic-image {
+  float: left;
+  margin-right: 20px;
 }
 

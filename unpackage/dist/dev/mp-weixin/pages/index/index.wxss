@@ -55,15 +55,25 @@ page.data-v-57280228 {
   z-index: 999;
   right: 15rpx;
   background-color: #000;
-  width: 100px;
-  -webkit-border-radius: 5px;
-          border-radius: 5px;
+  -webkit-border-radius: 10px;
+          border-radius: 10px;
   color: #fff;
   text-align: center;
+  -webkit-transition: all .3s;
+  transition: all .3s;
 }
-.content .rect .text.data-v-57280228 {
-  height: 40px;
-  line-height: 40px;
+.content .rect .rect-li.data-v-57280228 {
+  padding: 10px;
+  height: 50px;
+  border-bottom: .1px solid #606266;
+}
+.content .rect .rect-li .rect-image.data-v-57280228 {
+  float: left;
+  margin-right: 10px;
+}
+.content .rect .rect-li .text.data-v-57280228 {
+  line-height: 30px;
+  float: left;
 }
 .swiper.data-v-57280228 {
   min-height: calc(100vh - 90px);

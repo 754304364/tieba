@@ -25,7 +25,7 @@
 				 "app-plus": {
 				        "animationType": "slide-in-bottom",
 				        "animationDuration": 300
-				    }
+				 }
 			}
 		},{
             "path" : "pages/tiezicontent/tiezicontent",
@@ -35,7 +35,11 @@
 				}
 			}
         },{
-			"path":"pages/login/login"
+			"path":"pages/login/login",
+			"style":{
+				"navigationBarTitleText":"登录",
+				"navigationBarBackgroundColor":"#fff"
+			}
 		}
         ,{
             "path" : "pages/topic/topic",
@@ -43,6 +47,20 @@
             {
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom" ,
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"app-plus": {
+				   "animationType": "slide-in-right",
+				   "animationDuration": 300
+				}
             }
             
         }

@@ -47,6 +47,13 @@
 .acticle .acticle-text.data-v-a4c6fde2 {
   margin-top: 10px;
 }
+.acticle .acticle-text .rich-text.data-v-a4c6fde2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  /*设置省略号在容器第四行文本后*/
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
 .acticle .acticle-img.data-v-a4c6fde2 {
   -webkit-border-radius: 10px;
           border-radius: 10px;
@@ -58,7 +65,7 @@
 }
 .acticle .acticle-img .image.data-v-a4c6fde2 {
   float: left;
-  margin-right: 15rpx;
+  margin-right: 14rpx;
 }
 .acticle .foot.data-v-a4c6fde2 {
   margin-top: 10px;

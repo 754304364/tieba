@@ -1,9 +1,13 @@
 <template>
 	<view class="">
-		<input type="number" value="" v-model="userAccount" placeholder="请输入登录账号"/>
-		<input type="password" value="" v-model="userPassword" placeholder="请输入密码"/>
-		<button type="default" class="login" @click="login()">登录</button>
-		{{loginMes}}
+		<input class="input" type="number" value="" v-model="userAccount" :placeholder=" isRegistered? '请输入注册账号':'请输入登录账号'"/>
+		<input class="input" type="password" value="" v-model="userPassword" placeholder="请输入密码"/>
+		<!-- <button type="default" class="login" @click="login()"><u-icon name='arrow-rightward'></u-icon></button> -->
+		<view style="display: flex;justify-content: center;">
+			<image class="login" :src="src" @click="fn"></image>
+		</view>
+		<view v-if="!isRegistered" style="text-align: center;margin-top: 20px;font-size: 16px;" @click="isRegistered = true">新用户注册</view>
+		<view v-else style="text-align: center;margin-top: 20px;font-size: 16px;" @click="isRegistered = false">返回登录</view>
 	</view>
 </template>
 
@@ -14,18 +18,32 @@
 			return{
 				userAccount:null,
 				userPassword:null,
-				loginMes:''
+				isRegistered:false,
+				loginMes:'',
 			}
 		},
-		// onHide(){
-		// 	uni.switchTab({
-		// 		url:"../index/index"
-		// 	})
-		// },
+		watch:{
+			loginMes(val){
+				uni.showToast({
+				    title: val,
+					icon:'none',
+				    duration: 1000
+				});
+			}
+		},
+		computed:{
+			src(){
+				if(this.userAccount !== null && this.userPassword !== null){
+					return '../../static/login_btn.png'
+				}else{
+					return '../../static/login_btn2.png'
+				}
+			}
+		},
 		methods:{
 			login(){
 				if(!this.userAccount || !this.userPassword){
-					this.loginMes = '请输入用户名或密码'
+					
 				}else{
 					this.$request('/login',{
 						account:this.userAccount,
@@ -41,10 +59,9 @@
 								},'post').then(res =>{
 									this.$store.commit('updateUser',res[0])
 								});
-								uni.switchTab({
-									url:'../user/user'
-								});
-								// uni.navigateBack();
+								uni.navigateBack({
+									delta:1
+								})
 								break;
 							case -1:
 								this.loginMes ="用户名或密码错误！";
@@ -56,53 +73,52 @@
 					})
 				}
 			},
-			
-			 // sign(){
-			 //        if(!this.userName || !this.userpwd){
-			 //            this.loginMes = '请输入用户名或密码'
-			 //        }else{
-			 //            request({
-			 //            method:'post',
-			 //            url: '/add',
-			 //            data: {
-			 //                username: this.userName,
-			 //                password: this.userpwd
-			 //            }
-			 //        }).then( res => {
-			 //            switch(res.data){
-			 //            case 0:
-			 //                this.loginMes ="注册成功";
-			 //                this.login();
-			 //                break;
-			 //            case -1:
-			 //                this.loginMes ="用户名已存在";
-			 //                break;
-			 //                }
-			 //            })
-			 //            .catch( err => {
-			 //                console.log(err);
-			 //            })
-			 //    } 
-		}
+			registered(){
+				this.$request('/registered',{
+					account:this.userAccount,
+					password:this.userPassword
+				},'post').then( res =>{
+					switch(res){
+					    case 0:this.loginMes ="注册成功";this.login();
+					    break;
+					    case -1:this.loginMes ="用户名已存在";
+					    break;
+					}
+				})
+			},
+			fn(){
+				if(this.userAccount !== null && this.userPassword !== null){
+					if(this.isRegistered){
+						this.registered()
+					}else{
+						this.login()
+					}
+				}
+			}
+		    
+		},
+		
 	}
 </script>
 
 <style>
 	page{
-		background-color: #f9f9f9;
+		background-color: #fff;
 	}
-	input{
+	.input{
 		width: 70%;
 		margin: 0 auto;
 		height: 40px;
 		padding: 5px 5%;
-		background-color: #fff;
+		border-radius: 20px;
+		background-color: #ededed;
 		margin-top: 50px;
 	}
 	.login{
-		width: 100px;
-		height: 30px;
-		line-height: 30px;
+		width: 80px;
+		height: 80px;
+		line-height: 80px;
 		margin-top: 50px;
+		border-radius: 50%;
 	}
 </style>

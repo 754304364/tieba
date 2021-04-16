@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "u-tabs-swiper": "/node-modules/uview-ui/components/u-tabs-swiper/u-tabs-swiper"
+    "u-tabs-swiper": "/node-modules/uview-ui/components/u-tabs-swiper/u-tabs-swiper",
+    "my-topic": "/components/home/my-topic"
   }
 }

@@ -1,5 +1,5 @@
 <template>
-	<view class="" v-if="this.$store.state.login == true">
+	<view class="" v-if="this.$store.state.user !== null">
 		<image class="user-img" :src="this.$store.state.user.img"></image>
 		<view class="user-data">
 			<view class="user-name">

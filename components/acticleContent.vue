@@ -12,18 +12,21 @@
 			<view><text>{{res.time}}</text></view>
 		</view>
 		<view class="acticle-text">
-			<text :selectable=true :user-select=true>{{res.txt}}</text>
+			<rich-text class="rich-text" :nodes="res.txt"></rich-text>
 		</view>
 		<view class="acticle-img">
 			<view v-for="(item,index) in res.img" :key='index'>
-				<u-image 
-				class='image' 
-				:src='item' 
-				:lazy-load="true"
-				border-radius='10px'
-				:width="(res.img).length<2 ? '450rpx' : '220rpx'"
-				:height="(res.img).length<2 ? '500rpx' : '220rpx'">
-				</u-image>
+				<view @click.stop="previewImage(res.img,item)">
+					<u-image
+					class='image' 
+					:src='item' 
+					:lazy-load="true"
+					border-radius='10px'
+					:width="(res.img).length<2 ? '450rpx' : '213rpx'"
+					:height="(res.img).length<2 ? '500rpx' : '220rpx'">
+					</u-image>
+				</view>
+				
 			</view>
 		</view>
 		<view class="foot">
@@ -77,8 +80,16 @@
 						}
 					})
 				}
-				
-			}
+			},
+			//图片预览
+			previewImage(src,num){
+				uni.previewImage({
+					current:src[num],
+					urls:src,
+					indicator:"default",
+					loop:true
+				})
+			},
 		}
 	}
 </script>
@@ -104,6 +115,13 @@
 		}
 		.acticle-text{
 			margin-top: 10px;
+			.rich-text{
+				display: -webkit-box; 
+				-webkit-box-orient: vertical;
+				/*设置省略号在容器第四行文本后*/
+				-webkit-line-clamp: 4;
+				overflow: hidden;
+			}
 		}
 		.acticle-img{
 			border-radius: 10px;
@@ -114,7 +132,7 @@
 			}
 			.image{
 				float: left;
-				margin-right: 15rpx;
+				margin-right: 14rpx;
 			}
 		}
 		.foot{

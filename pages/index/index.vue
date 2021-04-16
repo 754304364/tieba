@@ -2,7 +2,7 @@
 	<view class="content">
 		<!-- 顶部导航栏 -->
 		<u-navbar class="top-navbar" :is-back="false" :background="{ background: '#F5F5F5' }">
-			<view class="top-navbar-input">
+			<view class="top-navbar-input" @click="toSearch">
 				<text>搜索</text>
 			</view>
 			<view class="top-navbar-btn" slot="right" @click="reply">发布</view>
@@ -10,12 +10,12 @@
 				<u-mask class="warp" v-if='maskShow' :custom-style="{background: 'rgba(0, 0, 0, 0.2)'}" :show="maskShow" @click="maskShow = false"></u-mask>
 		</u-navbar>
 		<view class="rect"  v-show="maskShow">
-			<view class="rect-li" @click="toFatie"><u-image class='rect-image' src="../../static/fatie.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">发帖</text></view>
-			<view class="rect-li"><u-image class='rect-image' src="../../static/tupian_image.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">图片/视频</text></view>
-			<view class="rect-li"><u-image class='rect-image' src="../../static/Shoot.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">拍摄</text></view>
-			<view class="rect-li"><u-image class='rect-image' src="../../static/Live.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">直播</text></view>
-			<view class="rect-li"><u-image class='rect-image' src="../../static/vote.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">投票</text></view>
-			<view class="rect-li"><u-image class='rect-image' src="../../static/evaluation.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">评价</text></view>
+			<view class="rect-li" @click="toFatie"><u-image class='rect-image' src="/static/fatie.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">发帖</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="/static/tupian_image.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">图片/视频</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="/static/Shoot.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">拍摄</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="/static/Live.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">直播</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="/static/vote.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">投票</text></view>
+			<view class="rect-li"><u-image class='rect-image' src="/static/evaluation.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">评价</text></view>
 		</view>
 		
 		
@@ -97,6 +97,11 @@
 			}, 1000);
 		},
 		methods:{
+			toSearch(){
+				uni.navigateTo({
+					url:'../search/search'
+				})
+			},
 			//点击 右上角 发布 事件
 			reply(){
 				this.maskShow = true

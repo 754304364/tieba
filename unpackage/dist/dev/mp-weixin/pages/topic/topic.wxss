@@ -65,47 +65,6 @@
 .container .new-article {
   background-color: #ededed;
 }
-.container .new-article .article {
-  margin: 15rpx;
-  padding: 10px;
-  background-color: #fff;
-  -webkit-border-radius: 10px;
-          border-radius: 10px;
-}
-.container .new-article .article::after {
-  display: block;
-  content: "";
-  clear: both;
-}
-.container .new-article .article .user-img {
-  height: 40px;
-  width: 40px;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
-}
-.container .new-article .article .user-data {
-  height: 40px;
-  line-height: 20px;
-  font-size: 14px;
-  margin-top: -44px;
-  margin-left: 50px;
-}
-.container .new-article .article .article-content {
-  font-size: 14px;
-  margin-top: 5px;
-}
-.container .new-article .article .article-content .rich-text {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  /*设置省略号在容器第四行文本后*/
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-}
-.container .new-article .article .article-content .article-img {
-  margin-right: 15rpx;
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
-}
 .transition {
   -webkit-transition: all .3s;
   transition: all .3s;
