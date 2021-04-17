@@ -4,7 +4,7 @@
 			<view class="right">
 				<p class='user-name'>{{res.username}}</p>
 				<text class="storey">第{{storey}}楼</text>
-				<text class="time">{{res.time}}</text>
+				<text class="time">{{$u.timeFrom(res.second, 'yyyy年mm月dd日')}}</text>
 				<rich-text :nodes="res.txt" @click="toReply"></rich-text>
 				<image
 				v-if="res.img"

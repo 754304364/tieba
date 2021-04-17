@@ -20,6 +20,7 @@
 		
 		
 		<u-tabs-swiper
+		class='tabs-swiper'
 		ref="uTabs" 
 		:list="list" 
 		bg-color='#ededed;'
@@ -37,7 +38,7 @@
 			</swiper-item>
 			<swiper-item class="swiper-item">
 				<scroll-view scroll-y style="width: 100%;">
-					<recommend></recommend>
+					<recommend :recommendData='recommendData'></recommend>
 				</scroll-view>
 			</swiper-item>
 			<swiper-item class="swiper-item">
@@ -46,12 +47,10 @@
 			</swiper-item>
 			<swiper-item class="swiper-item">
 				<scroll-view scroll-y style="width: 100%;">
-
 				</scroll-view>
 			</swiper-item>
 			<swiper-item class="swiper-item" style="overflow-y: auto;">
 				<scroll-view scroll-y style="width: 100%;">
-
 				</scroll-view>
 			</swiper-item>
 		</swiper>
@@ -80,7 +79,15 @@
 				current: 1, // tabs组件的current值，表示当前活动的tab选项
 				swiperCurrent: 1, // swiper组件的current值，表示当前那个swiper-item是活动的
 				maskShow:false,
-				followShow:false
+				followShow:false,
+				recommendData:{   //推荐区域获取的数据
+					article:[],
+					topicId:[],
+				},
+				followData:{
+					acticleArr:[]
+				}
+				
 			}
 		},
 		components:{
@@ -92,11 +99,15 @@
 			}
 		},
 		onPullDownRefresh() {
-			setTimeout(function () {
-				uni.stopPullDownRefresh();
-			}, 1000);
+			if(this.current === 1){
+				this.recommend()
+				this.$nextTick(() =>{
+					uni.stopPullDownRefresh();
+				})
+			}
 		},
 		methods:{
+			//跳转搜索页面
 			toSearch(){
 				uni.navigateTo({
 					url:'../search/search'
@@ -106,6 +117,7 @@
 			reply(){
 				this.maskShow = true
 			},
+			//跳转发帖页面
 			toFatie(){
 				if(!this.$store.state.login){
 					uni.navigateTo({
@@ -134,6 +146,58 @@
 				this.swiperCurrent = current;
 				this.current = current;
 			},
+			// 首页 - 推荐 网络请求
+			recommend(){
+				this.$request('/selectArticle','','get').then(res =>{
+					this.recommendData.article = res
+					for(let i = 0;i<res.length;i++){
+						this.recommendData.topicId.push(res[i].topicid)
+					}
+				}).then(() =>{
+					for(let i = 0;i < this.recommendData.topicId.length;i++){
+					this.$request('/selectTopic',{
+						id:this.recommendData.topicId[i]
+					},'post').then(res =>{
+						this.$set(this.recommendData.article[i],'baimg',res.img)
+						this.$set(this.recommendData.article[i],'name',res.name)
+						this.$set(this.recommendData.article[i],'guanzhu',res.guanzhu)
+						this.$set(this.recommendData.article[i],'tiezi',res.tiezi)
+						})
+					}	
+				})
+			},
+			followRequest(){
+				if(this.login){
+					let requestArr= []
+					let arr =JSON.parse(JSON.stringify(this.user.followUser))
+					for(let i = 0;i<arr.length;i++){
+						requestArr[i] = this.$request(`/selectFollowActicle?id=${arr[i]}`,{},'get')
+					}
+					
+					Promise.all(requestArr).then(res =>{
+						//将所有结果放入数组
+						for(let i = 0;i<res.length;i++){
+							for(let j =0;j<res[i].length;j++){
+								this.followData.acticleArr.push(res[i][j])
+							}
+						}
+						// 将数组按照id排序
+						for ( var i=0;i<this.followData.acticleArr.length-1;i++){
+							for (var j=0;j<this.followData.acticleArr.length-1-i;j++) {
+								if (this.followData.acticleArr[j].id < this.acticleArr[j + 1].id) {
+									var temp = this.followData.acticleArr[j];
+									this.followData.acticleArr[j] = this.followData.acticleArr[j + 1];
+									this.followData.acticleArr[j + 1]= temp;
+								} 
+							}
+						} 
+					})
+				}
+			},
+		},
+		onLoad() {
+			this.recommend()
+			this.followRequest()
 		}
 	}
 </script>
@@ -190,8 +254,12 @@
 			 }
 		 }
 	 }
+	 .tabs-swiper{
+		 position: fixed;
+	 }
 	 .swiper{
-		 min-height: calc(100vh - 90px);
+		 margin-top: 44px;
+		 min-height: calc(100vh - 140px);
 		 .swiper-item{
 		 	overflow-y: auto;
 		 }

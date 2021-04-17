@@ -18,7 +18,7 @@
 			
 			<!-- 右边 推荐吧 -->
 			<swiper-item class="swiper-item" >
-				<scroll-view scroll-y style="height: 100vh;width: 100%;">
+				<scroll-view scroll-y style="height: 100vh;width: 100%;background-color: #fff;">
 					<view class="topic-square-left">
 						<view class="topic-class"
 						 :class="{selected:topicClassSelected===index}"
@@ -28,7 +28,7 @@
 							{{item}}
 						</view>
 					</view>
-					<view style="float: left;">123</view>
+					<view style="float: left;" >123</view>
 				</scroll-view>
 			</swiper-item>
 		</swiper>

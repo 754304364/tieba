@@ -1,6 +1,6 @@
 <template>
 	<view class="recommend">
-		 <view class="container" v-for="(item,index) in recommendData.article" :key="index" @click="toArticle(item.id)">
+		 <view class="container" v-for="(item,index) in article" :key="index" @click="toArticle(item.id)">
 		 	<view class="title">
 				<view class="title-img">
 					<image :src="item.baimg" @click.stop="toTopic(item)"></image>
@@ -53,9 +53,11 @@
 		name:'recommend',
 		data(){
 			return{
+				article:null,
+				topicId:[],
+				articlImg:[]
 			}
 		},
-		props:['recommendData'],
 		methods:{
 			//点击进入 帖子页面
 			toArticle(id){
@@ -94,6 +96,26 @@
 			}
 		},
 		created() {
+			uni.showLoading({
+			    title: '加载中'
+			});
+			this.$request('/selectArticle','','get').then(res =>{
+				this.article = res
+				for(let i = 0;i<res.length;i++){
+					this.topicId.push(res[i].topicid)
+				}
+			}).then(() =>{
+					for(let i = 0;i < this.topicId.length;i++){
+					this.$request('/selectTopic',{
+						id:this.topicId[i]
+					},'post').then(res =>{
+						this.$set(this.article[i],'baimg',res.img)
+						this.$set(this.article[i],'name',res.name)
+						this.$set(this.article[i],'guanzhu',res.guanzhu)
+						this.$set(this.article[i],'tiezi',res.tiezi)
+					})
+				}	
+			})
 		},
 	}
 	

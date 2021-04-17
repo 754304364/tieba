@@ -7,7 +7,8 @@
 			</view>
 			<view class="user">
 				<view class="user-name">{{data.username}}</view>
-				<view class="time">{{time}}</view>
+				<view class="time">{{$u.timeFrom(data.second, 'yyyy年mm月dd日')}}</view>
+				
 				<view class="follow" :style="{color:follow ? '#999999':'blue' }" @click="followUser(data.userid)">{{followText}}</view>
 			</view>
 
@@ -25,7 +26,17 @@
 		@click="previewImage(articleImg,index)">
 		</image>
 		<!-- end -->
+		<!-- 分享区域 -->
+		<view class="share">
+			<u-icon name='weixin-circle-fill' size='60' color="#19be6b" label='微信好友' label-size='20' label-pos='bottom' ></u-icon>
+			<u-icon name='qq-circle-fill' size='60' color="#2b85e4" label='QQ好友' label-size='20' label-pos='bottom'></u-icon>
+			<u-icon name='thumb-up' size='60' :label='data.dznum' label-size='20' label-pos='bottom'></u-icon>
+			<u-icon name='thumb-down' size='60' label='踩' label-size='20' label-pos='bottom'></u-icon>
+		</view>
+		<u-gap height="10" bg-color="#f5f5fe"></u-gap>
+		<!-- 评论内容区域 -->
 		<comments  :articleid='articleid'></comments>
+		<!-- 底部回复区域 -->
 		<view class="bottom">
 			<view class="input" v-if="!isLogin" @click="toLogin">
 				<image class="image"></image>
@@ -50,7 +61,6 @@
 				data:[],
 				articleImg:[],
 				user:[],
-				time:'',
 				replyShow:false,
 				articleid:0,
 				replyType:'tiezi',
@@ -65,7 +75,7 @@
 				return this.$store.state.login
 			},
 			userImg(){
-				if(this.$store.state.login){
+				if(this.$store.state.user !== null){
 					return this.$store.state.user.img
 				}	
 			}
@@ -129,19 +139,12 @@
 						this.followText ='已关注'
 					}
 				}
-				//end
-				let second = Math.floor(((new Date().getTime() - this.data.second)/1000))
-				switch(true){
-					case  second>86400:this.time = this.data.time;break;
-					case  second>=3600:this.time = Math.ceil(second/3600)+"小时前";break;
-					case  second>=60:this.time = Math.ceil(second/60)+'分钟前';break;
-					case  second>0:this.time = second+'秒前';break;						
-				}
 			})
 		},
 		onShow() {
 			//判断登录用户是否已经关注发帖人
-			if(this.$store.state.login){
+			
+			if(this.$store.state.user !== null){
 				let arr= this.$store.state.user.followUser
 				if(arr.indexOf(this.data.userid+'')> -1){
 					this.follow = true
@@ -166,6 +169,10 @@ page{
 	box-sizing: border-box;
 	padding: 0 15rpx;
 	background-color: #fff;
+}
+.title{
+	font-size: 18px;
+	font-weight: bold;
 }
 .userdata{
 	height: 40px;
@@ -210,6 +217,15 @@ page{
 	border-radius: 15rpx;
 }
 // end
+// 分享 区域
+.share{
+	height: 50px;
+	margin: 15px 0;
+	display: flex;
+	justify-content:space-around;
+	align-items:center;
+}
+//  end
 .bottom{
 	position: fixed;
 	bottom: 0;

@@ -39,6 +39,7 @@
 		watch:{
 			user(val){
 				let arr = []
+				
 				for(let i = 0;i<this.user.followTopic.length;i++){
 					arr[i] = this.$request(`/allFollowTopic?id=${this.user.followTopic[i]}`,{},'get')
 				}
@@ -65,12 +66,16 @@
 		},
 		created() {
 			let arr = []
-			for(let i = 0;i<this.user.followTopic.length;i++){
-				arr[i] = this.$request(`/allFollowTopic?id=${this.user.followTopic[i]}`,{},'get')
+			if(this.user !== null){
+				console.log(this.user.followTopic)
+				for(let i = 0;i<this.user.followTopic.length;i++){
+					arr[i] = this.$request(`/allFollowTopic?id=${this.user.followTopic[i]}`,{},'get')
+				}
+				Promise.all(arr).then(res =>{
+					this.followTopic = res
+				})
 			}
-			Promise.all(arr).then(res =>{
-				this.followTopic = res
-			})
+			
 		}
 	}
 </script>

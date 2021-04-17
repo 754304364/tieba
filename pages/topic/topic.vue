@@ -57,7 +57,7 @@
 			},'post').then( res =>{
 				this.topicData = res
 				//判断登录用户是否关注 吧
-				if(this.$store.state.login == true){
+				if(this.$store.state.user !== null){
 					let arr= this.$store.state.user.followTopic
 					if(arr !==false && arr.indexOf(this.topicData.id+'')> -1){
 						this.followTxt ='已关注'
@@ -72,7 +72,7 @@
 			})
 		},
 		onShow() {
-			if(this.$store.state.login == true){
+			if(this.$store.state.user !== null){
 				let arr= this.$store.state.user.followTopic
 				if(arr !==false && arr.indexOf(this.topicData.id+'')> -1){
 					this.followTxt ='已关注'

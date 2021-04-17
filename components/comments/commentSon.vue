@@ -5,6 +5,8 @@
 			<rich-text class="rich-text" :style="{textIndent:textIndent}" @click="open" :nodes="res.txt"></rich-text>
 		</view>
 			
+			
+			
 		<uni-popup  ref="popup" type="bottom"  @change='change'>
 			<view class="popup">
 				<view class="top">
@@ -15,7 +17,7 @@
 					<view class="right">
 						<p class='user-name'>{{fatherRes.username}}</p>
 						<text class="storey">第{{storey}}楼</text>
-						<text class="time">{{fatherRes.time}}</text>
+						<text class="time">{{$u.timeFrom(fatherRes.second, 'yyyy年mm月dd日')}}</text>
 						<rich-text :nodes="fatherRes.txt"></rich-text>
 					</view>
 				</view>
@@ -24,8 +26,7 @@
 						<image class="userimg" :src="item.userimg" mode=""></image>
 						<view class="right">
 							<p class='user-name'>{{item.username}}</p>
-							<text class="time">{{item.time}}</text>
-							<!-- <rich-text class="rich-text" :nodes="item.txt"></rich-text> -->
+							<text class="time">{{$u.timeFrom(item.second, 'yyyy年mm月dd日')}}</text>
 							<view class="rich-text">
 								<text style="color: blue;" v-if="item.parentUserName">回复 {{item.parentUserName}} : </text>
 								<text v-html="item.txt"></text>

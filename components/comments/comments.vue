@@ -1,5 +1,5 @@
 <template>
-	<view style="margin-top: 30px;padding-bottom: 60px;">
+	<view style="padding-bottom: 60px;">
 		<view class="comment-class">
 			<text 
 			class="text-left" 
@@ -76,11 +76,16 @@
 
 <style lang="scss">
 	.comment-class{
-		height: 20px;
-		line-height: 20px;
+		height: 25px;
+		box-sizing: content-box;
+		line-height: 25px;
 		font-size: 14px;
 		padding: 5px;
-		border-top: 3px solid #ededed;
+		&::after{
+			display: block;
+			content: '';
+			clear: both;
+		}
 		.showLeft{
 			font-weight: bold;
 		}
@@ -89,22 +94,22 @@
 		}
 		.text-left{
 			display: inline-block;
-			height: 20px;
-			line-height: 20px;
+			height: 25px;
+			line-height: 25px;
 			margin-right: 5px;
 		}
 		.right{
 			display: inline-block;
 			float: right;
-			height: 16px;
-			line-height: 16px;
+			height: 25px;
+			line-height: 21px;
 			padding: 2px;
-			background-color: #dcdcdc;
+			background-color: rgb(240,240,240);
 			border-radius: 10px;
 			.right-txt{
 				display: inline-block;
-				height: 16px;
-				line-height: 16px;
+				height: 21px;
+				line-height: 21px;
 				padding: 0 5px;
 				border-radius: 10px;
 			}

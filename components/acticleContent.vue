@@ -48,7 +48,7 @@
 			}
 		},
 		created() {
-			if(this.$store.state.user.support.indexOf(this.res.id+'') !== -1){
+			if(this.$store.state.user !== null && this.$store.state.user.support.indexOf(this.res.id+'') !== -1){
 				this.dzSrc = '/static/dianzan2.png'
 				this.isDz = true
 			}
