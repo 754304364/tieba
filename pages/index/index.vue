@@ -33,7 +33,7 @@
 		<swiper class="swiper" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish" >
 			<swiper-item class="swiper-item">
 				<scroll-view scroll-y style="width: 100%;">
-					<follow v-if="followShow"></follow>
+					<follow :followData='followData' v-if="followShow"></follow>
 				</scroll-view>
 			</swiper-item>
 			<swiper-item class="swiper-item">
@@ -98,12 +98,11 @@
 				this.followShow = true
 			}
 		},
+		
 		onPullDownRefresh() {
-			if(this.current === 1){
-				this.recommend()
-				this.$nextTick(() =>{
-					uni.stopPullDownRefresh();
-				})
+			switch(this.current){
+				case 0:this.followData.acticleArr=[];this.followRequest();this.$nextTick(() =>{uni.stopPullDownRefresh();});break;
+				case 1:this.recommendData={article:[],topicId:[]};this.recommend();this.$nextTick(() =>{uni.stopPullDownRefresh();});break;
 			}
 		},
 		methods:{
@@ -167,9 +166,9 @@
 				})
 			},
 			followRequest(){
-				if(this.login){
+				if(this.$store.state.user !== null){
 					let requestArr= []
-					let arr =JSON.parse(JSON.stringify(this.user.followUser))
+					let arr =JSON.parse(JSON.stringify(this.$store.state.user.followUser))
 					for(let i = 0;i<arr.length;i++){
 						requestArr[i] = this.$request(`/selectFollowActicle?id=${arr[i]}`,{},'get')
 					}
@@ -184,7 +183,7 @@
 						// 将数组按照id排序
 						for ( var i=0;i<this.followData.acticleArr.length-1;i++){
 							for (var j=0;j<this.followData.acticleArr.length-1-i;j++) {
-								if (this.followData.acticleArr[j].id < this.acticleArr[j + 1].id) {
+								if (this.followData.acticleArr[j].id < this.followData.acticleArr[j + 1].id) {
 									var temp = this.followData.acticleArr[j];
 									this.followData.acticleArr[j] = this.followData.acticleArr[j + 1];
 									this.followData.acticleArr[j + 1]= temp;
@@ -194,6 +193,7 @@
 					})
 				}
 			},
+			
 		},
 		onLoad() {
 			this.recommend()

@@ -13,7 +13,7 @@
 			</view>
 			
 			<view v-else>
-				<view v-for="(item,index) in acticleArr" :key='index'>
+				<view v-for="(item,index) in followData.acticleArr" :key='index'>
 					<acticle-content :res='item'></acticle-content>
 				</view>
 			</view>
@@ -27,9 +27,9 @@
 		name:'follow',
 		data(){
 			return{
-				acticleArr:[]
 			}
 		},
+		props:['followData'],
 		components:{acticleContent},
 		methods:{
 			toLogin(){
@@ -46,65 +46,7 @@
 				return this.$store.state.user
 			}
 		},
-		created() {
-			if(this.login){
-				let requestArr= []
-				let arr =JSON.parse(JSON.stringify(this.user.followUser))
-				for(let i = 0;i<arr.length;i++){
-					requestArr[i] = this.$request(`/selectFollowActicle?id=${arr[i]}`,{},'get')
-				}
-				
-				Promise.all(requestArr).then(res =>{
-					//将所有结果放入数组
-					for(let i = 0;i<res.length;i++){
-						for(let j =0;j<res[i].length;j++){
-							this.acticleArr.push(res[i][j])
-						}
-					}
-					// 将数组按照id排序
-					for ( var i=0;i<this.acticleArr.length-1;i++){
-						for (var j=0;j<this.acticleArr.length-1-i;j++) {
-							if (this.acticleArr[j].id < this.acticleArr[j + 1].id) {
-								var temp = this.acticleArr[j];
-								this.acticleArr[j] = this.acticleArr[j + 1];
-								this.acticleArr[j + 1]= temp;
-							} 
-						}
-					} 
-				})
-			}
-		},
-		watch:{
-			//监听 是否登录，然后获取已关注的人的帖子
-			user(){
-				if(this.login){
-					let requestArr= []
-					let arr =JSON.parse(JSON.stringify(this.user.followUser))
-					for(let i = 0;i<arr.length;i++){
-						requestArr[i] = this.$request(`/selectFollowActicle?id=${arr[i]}`,{},'get')
-					}
-					
-					Promise.all(requestArr).then(res =>{
-						//将所有结果放入数组
-						for(let i = 0;i<res.length;i++){
-							for(let j =0;j<res[i].length;j++){
-								this.acticleArr.push(res[i][j])
-							}
-						}
-						// 将数组按照id排序
-						for ( var i=0;i<this.acticleArr.length-1;i++){
-							for (var j=0;j<this.acticleArr.length-1-i;j++) {
-								if (this.acticleArr[j].id < this.acticleArr[j + 1].id) {
-									var temp = this.acticleArr[j];
-									this.acticleArr[j] = this.acticleArr[j + 1];
-									this.acticleArr[j + 1]= temp;
-								} 
-							}
-						} 
-					})
-				}	
-			}
-		},
+
 	}
 </script>
 
