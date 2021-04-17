@@ -107,19 +107,12 @@
 		},
 		methods:{
 			sendTips(){
-				let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
-				let curParam = routes[routes.length - 1].options; //获取路由参数
 				this.$refs.uToast.show({
 					title: '发送成功',
 					type:'success ',
 					duration:500,
-					url:'/pages/tiezicontent/tiezicontent',
-					params: {
-							id:curParam.id
-						}
 				})
 			},
-			//字符转换
 			change(e){
 				if(e.show === false){
 					this.$store.commit('updateReplyShow',false)
@@ -211,6 +204,12 @@
 						},'post').then(res =>{
 							if(res === 0){
 								this.sendTips()
+								let that = this
+								uni.startPullDownRefresh({
+									success() {
+										that.$store.commit('updateReplyShow',false)
+									}
+								})
 							}else{
 								this.$refs.uToast.show({
 									title: '发送失败',
@@ -231,6 +230,12 @@
 						},'post').then(res =>{
 							if(res === 0){
 								this.sendTips()
+								let that = this
+								uni.startPullDownRefresh({
+									success() {
+										that.$store.commit('updateReplyShow',false)
+									}
+								})
 							}else{
 								this.$refs.uToast.show({
 									title: '发送失败',
@@ -253,6 +258,12 @@
 						},'post').then( res =>{
 							if(res === 0){
 								this.sendTips()
+								let that = this
+								uni.startPullDownRefresh({
+									success() {
+										that.$store.commit('updateReplyShow',false)
+									}
+								})
 							}else{
 								this.$refs.uToast.show({
 									title: '发送失败',

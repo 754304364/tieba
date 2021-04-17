@@ -31,7 +31,6 @@
 								<text style="color: blue;" v-if="item.parentUserName">回复 {{item.parentUserName}} : </text>
 								<text v-html="item.txt"></text>
 							</view>
-							
 						</view>
 					</view>
 				</view>

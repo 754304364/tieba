@@ -30,6 +30,7 @@
 		},{
             "path" : "pages/tiezicontent/tiezicontent",
 			"style":{
+				"enablePullDownRefresh":true,
 				"app-plus": {
 				    "softinputMode": "adjustResize"
 				}

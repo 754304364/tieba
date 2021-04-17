@@ -40,7 +40,6 @@
 		components:{everyCom,commentSon},
 		data(){
 			return{
-				res:[],
 				left:['全部回复','只看楼主'],
 				leftIndex:0,
 				right:['正序','倒序'],
@@ -48,21 +47,7 @@
 			}
 		},
 		// 从页面传来文章的id
-		props:['articleid'],
-		created() {
-			//#ifdef H5 ||  APP-PLUS
-			this.$request('/querycomment',{articleid:this.articleid},'post').then(data =>{
-				this.res = data
-			})
-			//#endif
-		},
-		mounted() {
-			//#ifdef MP-WEIXIN
-			this.$request('/querycomment',{articleid:this.articleid},'post').then(data =>{
-				this.res = data
-			})
-			//#endif
-		},
+		props:['res'],
 		methods:{
 			leftChange(index){
 				this.leftIndex = index

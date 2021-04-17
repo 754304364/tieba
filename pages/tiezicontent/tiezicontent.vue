@@ -35,7 +35,7 @@
 		</view>
 		<u-gap height="10" bg-color="#f5f5fe"></u-gap>
 		<!-- 评论内容区域 -->
-		<comments  :articleid='articleid'></comments>
+		<comments  :res='commentsData'></comments>
 		<!-- 底部回复区域 -->
 		<view class="bottom">
 			<view class="input" v-if="!isLogin" @click="toLogin">
@@ -63,6 +63,7 @@
 				user:[],
 				replyShow:false,
 				articleid:0,
+				commentsData:[],
 				replyType:'tiezi',
 				follow:false,
 				followText:'关注',
@@ -121,29 +122,46 @@
 						})
 					}
 				}
-			}
+			},
+			// 请求 文章 数据
+			requestActicle(id){
+				this.$request('/selectArticleId?id='+id,{},'get').then(res =>{
+					this.data = res
+					this.$request('/selectTopic?id='+res.topicid,{},'get').then(res =>{
+						uni.setNavigationBarTitle({
+							title:res.name + '吧'
+						})
+					})
+					this.articleImg =this.data.img.split(',')
+					//判断登录用户是否已经关注发帖人
+					if(this.$store.state.login){
+						let arr= this.$store.state.user.followUser
+						if(arr.indexOf(this.data.userid+'')> -1){
+							this.follow = true
+							this.followText ='已关注'
+						}
+					}
+				})
+			},
+			// 请求文章 评论数据
+			requestComment(id){
+				this.$request('/querycomment',{articleid:id},'post').then(data =>{
+					this.commentsData = data
+				})
+			},
+			
 		},
 		onLoad(index) {	
 			uni.showLoading({
 			    title: '加载中'
 			});
 			this.articleid = index.id
-			this.$request('/selectArticleId?id='+this.articleid,{},'get').then(res =>{
-				this.data = res[0]
-				this.articleImg =this.data.img.split(',')
-				//判断登录用户是否已经关注发帖人
-				if(this.$store.state.login){
-					let arr= this.$store.state.user.followUser
-					if(arr.indexOf(this.data.userid+'')> -1){
-						this.follow = true
-						this.followText ='已关注'
-					}
-				}
-			})
+			this.requestActicle(index.id)
+			this.requestComment(index.id)
+
 		},
 		onShow() {
 			//判断登录用户是否已经关注发帖人
-			
 			if(this.$store.state.user !== null){
 				let arr= this.$store.state.user.followUser
 				if(arr.indexOf(this.data.userid+'')> -1){
@@ -152,6 +170,13 @@
 				}
 			}
 			//end
+		},
+		onPullDownRefresh() {
+			this.requestActicle(this.articleid)
+			this.requestComment(this.articleid)
+			this.$nextTick(() =>{
+				uni.stopPullDownRefresh()
+			})
 		},
 		onUnload(){
 			this.$store.commit('updateReplyShow',false)
