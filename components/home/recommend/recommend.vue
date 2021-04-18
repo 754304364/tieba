@@ -24,18 +24,19 @@
 			<view class="content">
 				<view class="txt" v-html="item.txt"></view>
 				<!-- 中间图片区域 -->
-					 <view v-for="(src,num) in (item.img)" :key='num' style="float: left;">
-					 	 <image
-					 	 class="article-img"
-					 	  v-if="num < 3 && item.img"
-					 	  :style="{width:(item.img).length<2 ? '450rpx' : '220rpx',height:(item.img).length<2 ? '500rpx' : '220rpx'}"  
-					 	  :src="src"
-					 	  mode="aspectFill"
-					 	  @click.stop="previewImage(item.img,src)"
-					 	  :key='num'>
-					 	  </image>
-					  </view>
-					<view style="clear:both;"></view>
+				 <view v-for="(src,num) in (item.img)" :key='num' style="float: left;">
+					 <image
+					 class="article-img"
+					  v-if="num < 3 && item.img"
+					  :style="{width:(item.img).length<2 ? '450rpx' : '220rpx',height:(item.img).length<2 ? '500rpx' : '220rpx'}"  
+					  :src="src"
+					  mode="aspectFill"
+					  @click.stop="previewImage(item.img,src)"
+					  :key='num'>
+					  </image>
+				  </view>
+				  <video v-if="item.video !== ''" style="width: 100%;" :src="item.video" controls ></video>
+				<view style="clear:both;"></view>
 			</view>
 			
 			<view class="foot">

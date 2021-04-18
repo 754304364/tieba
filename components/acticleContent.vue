@@ -26,9 +26,9 @@
 					:height="(res.img).length<2 ? '500rpx' : '220rpx'">
 					</u-image>
 				</view>
-				
 			</view>
 		</view>
+		<video v-if="res.video !== ''" style="width: 100%;" :src="res.video" controls ></video>
 		<view class="foot">
 			<view class="share"><image class="img" src="../static/share.png"></image><text>{{res.sharenum}}</text></view>
 			<view class="comment"><image class="img" src="../static/huifu.png" ></image><text>{{res.commentnum}}</text></view>

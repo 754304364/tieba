@@ -1,20 +1,15 @@
 <template>
 	<view>
-		<u-tabs-swiper 
-		ref="uTabs" 
-		:list="list" 
-		:current="current" 
-		@change="tabsChange" 
-		:is-scroll="false"
-		swiperWidth="750">
-		</u-tabs-swiper>
-		<swiper :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
-			<swiper-item class="swiper-item" v-for="(item, index) in tabs" :key="index">
-				<scroll-view scroll-y style="height: 100vh;width: 100%;">
-					{{item}}
-				</scroll-view>
-			</swiper-item>
-		</swiper>
+		<u-button @click='chooseVideo'>上传视频</u-button>
+		
+		<view class="video-container">
+			<!-- <view style='width: 225rpx;' v-for="(item,index) in src" :key="index"> -->
+				<u-line-progress style='width: 225rpx;' :percent="percent" :show-percent="true"></u-line-progress>
+				<video class="video" src="http://www.res.goomee.top/video/1618710966364_VID_20210213_132301.mp4" controls></video>
+			<!-- </view> -->
+		</view>
+		
+		
 	</view>
 </template>
 
@@ -22,48 +17,54 @@
 	export default{
 		data(){
 			return{
-				list: [{
-					name: '关注'
-				}, {
-					name: '推荐'
-				}, {
-					name: '热榜',
-				}, {
-					name:'直播'
-				}, {
-					name:'视频号'
-				}],
-				tabs:[1,2,3,4,5],
-				current: 1, // tabs组件的current值，表示当前活动的tab选项
-				swiperCurrent: 1, // swiper组件的current值，表示当前那个swiper-item是活动的	
+				src:[],
+				percent:0,
+				index:0
 			}
 		},
-		mounted() {
-			
-		},
 		methods:{
-			// tabs通知swiper切换
-			tabsChange(index) {
-				this.swiperCurrent = index;
-			},
-			// swiper-item左右移动，通知tabs的滑块跟随移动
-			transition(e) {
-				let dx = e.detail.dx;
-				this.$refs.uTabs.setDx(dx);
-			},
-			// 由于swiper的内部机制问题，快速切换swiper不会触发dx的连续变化，需要在结束时重置状态
-			// swiper滑动结束，分别设置tabs和swiper的状态
-			animationfinish(e) {
-				let current = e.detail.current;
-				this.$refs.uTabs.setFinishCurrent(current);
-				this.swiperCurrent = current;
-				this.current = current;
-			},
+			chooseVideo(){
+					uni.chooseVideo({
+					success:(res) => {
+						this.src.push(res.tempFilePath)
+						const uploadTask = uni.uploadFile({
+							url:"http://101.132.235.218:4000/api/video",
+							  filePath:this.src[this.index],
+							  name:'avatar',
+							  formData: {
+							  	'name': new Date().getTime()+"_"+res.name
+							  },
+							  success: (res) => {
+								  uni.showToast({
+								  	title:'上传成功',
+									duration:1000
+								  })
+								  this.percent = 100
+							  }
+						})
+						uploadTask.onProgressUpdate(res => {
+							this.percent = res.progress;
+							if(this.percent === 100){
+								this.percent = 99
+							}
+						});
+					}
+				})
+			}
 		}
+		
 	}
 </script>
 
 <style lang="scss">
-	
+	.video-container{
+		display: flex;
+		justify-content: flex-start;
+		.video{
+			width: 220rpx;
+			height: 220rpx;
+		}
+		
+	}
 	
 </style>

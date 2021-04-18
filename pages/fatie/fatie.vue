@@ -7,8 +7,8 @@
 			slot="right" 
 			:hair-line=false
 			@click="publish" 
-			:disabled="title === '' && textarea === '' && imgPath.length ===0"
-			:style="{color:title === '' && textarea === '' && imgPath.length ===0 ? '#a0cfff' : '#2979ff'}">
+			:disabled="title === '' && textarea === '' && imgPath.length ===0 && serverVideoPath ===''"
+			:style="{color:title === '' && textarea === '' && imgPath.length ===0 && serverVideoPath ==='' ? '#a0cfff' : '#2979ff'}">
 			发布
 			</u-button>
 		</u-navbar>
@@ -22,13 +22,22 @@
 		
 		<input class="title" type="text" placeholder="这个帖子火就差这个标题了" v-model="title"/>
 		<view class="container">
-			<textarea v-model="textarea" class="txt" style="height: auto !important;" placeholder="来吧 , 尽情发挥吧..."></textarea>
+			<textarea v-model="textarea" auto-height='true' class="txt" style="height: auto !important;" placeholder="来吧 , 尽情发挥吧..."></textarea>
 		</view>
+		
 		<!-- 添加的图片显示区域 -->
-		<view class="addImg">
+		<view v-if="videoPath === ''" class="addImg">
 			<image class="image" v-for="(item,index) of imgPath" :src="item" mode='aspectFill' :key='index' @click="previewImage(item)"></image>
 			<view @click="addImage"  class="add"><image class="img" src="../../static/add.png" ></image></view>
 		</view>
+		
+		<!-- 视频显示区域 -->
+		<view v-else class="video-container">
+			<u-line-progress style='width: 600rpx;' :percent="percent" :show-percent="true"></u-line-progress>
+			<u-icon @click='clearVideo' class='video-icon' name="close" color='#fa3534' size='50'></u-icon>
+			<video class="video" :src="videoPath" controls></video>
+		</view>
+		<u-button v-if="videoPath === ''" @click='addVideo' type="primary" shape="circle" size="medium">上传视频</u-button>
 		
 		<!-- 弹出层  选择 吧 -->
 		<u-popup mode="bottom" height="90%" border-radius=20 v-model="popupShow">
@@ -56,6 +65,10 @@
 				imgPath:[],  //  选择的图片 的 路径数组
 				serverImgPath:[],  //  服务器返回的 图片 路径 数组
 				imgNum:0  ,//记录图片有没有上传完成,
+				videoPath:'', // 上传的视频地址,
+				clearUpVideo:false,
+				serverVideoPath:'',
+				percent:0,  //视频上传进度
 				topicArr:[], // 吧列表
 				
 			};
@@ -81,6 +94,7 @@
 				title:this.$global(this.title),
 				txt:this.$global(this.textarea),
 				img:''+this.serverImgPath,
+				video:this.serverVideoPath,
 				userid:this.$store.state.user.id,
 				username:this.$store.state.user.name,
 				userimg:this.$store.state.user.img,
@@ -112,6 +126,7 @@
 			// 导航栏发布按钮
 			publish(){
 				if(this.topicId === null){
+					console.log(123)
 					this.popupShow = true
 				}else{
 					if(this.imgPath.length > 0){
@@ -155,6 +170,48 @@
 					loop:true
 				})
 			},
+			clearVideo(){
+				this.clearUpVideo = true
+				this.videoPath = ''
+			},
+			// 选择视频上传
+			addVideo(){
+				uni.chooseVideo({
+					success:(res) => {
+						this.videoPath = res.tempFilePath
+						let videoName = new Date().getTime()+"_"+res.name
+						const uploadTask = uni.uploadFile({
+							url:"http://101.132.235.218:4000/api/video",
+							  filePath:this.videoPath,
+							  name:'avatar',
+							  formData: {
+							  	'name': new Date().getTime()+"_"+res.name
+							  },
+							  success: (res) => {
+								  this.serverVideoPath = 'http://www.res.goomee.top/video/'+videoName
+								  uni.showToast({
+								  	title:'上传成功',
+									duration:1000
+								  })
+								  this.percent = 100
+							  }
+						})
+						uploadTask.onProgressUpdate(res => {
+							this.percent = res.progress;
+							if(this.percent === 100){
+								this.percent = 99
+							}
+							if(this.clearUpVideo === true){
+								uploadTask.abort();
+								uni.showToast({
+									title:'中断上传成功',
+									duration:1000
+								})
+							}
+						});
+					}
+				})
+			},
 			changeActicle(){
 				this.popupShow = true
 			}
@@ -194,10 +251,26 @@
 		.txt{
 			min-height: 80px !important;
 			line-height: 20px;
-			padding-top: 10px;
+			padding: 10px 0;
 			font-size: 14px;
 		}
 		
+	}
+	
+	.video-container{
+		position: relative;
+		width: 600rpx;
+		.video-icon{
+			position: absolute;
+			top: calc(28rpx + 15px);
+			right: 20rpx;
+			z-index: 999;
+		}
+		.video{
+			margin-top: 5px;
+			width: 600rpx;
+			height: 400rpx;
+		}
 	}
 		
 	.addImg{
@@ -229,12 +302,9 @@
 			text-align: center;
 			line-height: 100px;
 			.img{
-				// margin-top: 30px;
 				height: 40px;
 				width: 40px;
 			}
-			// background-image: url(../../static/add.png);
-			// background-size: cover;
 		}
 	}
 	

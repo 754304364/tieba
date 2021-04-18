@@ -25,6 +25,7 @@
 		:key='index'
 		@click="previewImage(articleImg,index)">
 		</image>
+		<video v-if="data.video !== ''" style="width: 100%;" @click.stop='' :src="data.video" controls></video>
 		<!-- end -->
 		<!-- 分享区域 -->
 		<view class="share">
@@ -172,6 +173,8 @@
 			//end
 		},
 		onPullDownRefresh() {
+			this.data = []
+			this.commentsData = []
 			this.requestActicle(this.articleid)
 			this.requestComment(this.articleid)
 			this.$nextTick(() =>{
