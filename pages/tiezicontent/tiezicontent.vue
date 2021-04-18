@@ -54,6 +54,7 @@
 </template>
 
 <script>
+	import { selectArticleId, querycomment, selectTopic} from '../../global/api.js'
 	import comments from '../../components/comments/comments.vue'
 	import reply from '../../components/reply/reply.vue'
 	export default {
@@ -126,9 +127,9 @@
 			},
 			// 请求 文章 数据
 			requestActicle(id){
-				this.$request('/selectArticleId?id='+id,{},'get').then(res =>{
+				selectArticleId(id).then(res =>{
 					this.data = res
-					this.$request('/selectTopic?id='+res.topicid,{},'get').then(res =>{
+					selectTopic(res.topicid).then(res =>{
 						uni.setNavigationBarTitle({
 							title:res.name + '吧'
 						})
@@ -146,8 +147,8 @@
 			},
 			// 请求文章 评论数据
 			requestComment(id){
-				this.$request('/querycomment',{articleid:id},'post').then(data =>{
-					this.commentsData = data
+				querycomment(id).then(res =>{
+					this.commentsData = res
 				})
 			},
 			

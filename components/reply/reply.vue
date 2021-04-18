@@ -38,6 +38,7 @@
 </template>
 
 <script>
+	import { comment,commentSon,commentSonTwo} from '../../global/api.js'
 	export default {
 		name:"reply",
 		data() {
@@ -83,18 +84,24 @@
 			imgNum(val){
 				if(this.imgNum === this.imgPath.length){
 					let myDate = new Date();
-					this.$request('/comment',{
-					userid:this.$store.state.user.id,
-					articleid:this.$store.state.reply.data.articleid,
-					txt:this.textarea,
-					img:''+this.serverImgPath,
-					time:myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate(),
-					second:new Date().getTime(),
-					username:this.$store.state.user.name,
-					userimg:this.$store.state.user.img
-					},'post').then(res =>{
+					comment({
+						userid:this.$store.state.user.id,
+						articleid:this.$store.state.reply.data.articleid,
+						txt:this.textarea,
+						img:''+this.serverImgPath,
+						time:myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate(),
+						second:new Date().getTime(),
+						username:this.$store.state.user.name,
+						userimg:this.$store.state.user.img
+					}).then(res =>{
 						if(res === 0){
 							this.sendTips()
+							let that = this
+							uni.startPullDownRefresh({
+								success() {
+									that.$store.commit('updateReplyShow',false)
+								}
+							})
 						}else{
 							this.$refs.uToast.show({
 								title: '发送失败',
@@ -192,7 +199,7 @@
 					
 					let myDate = new Date();
 					if(this.$store.state.reply.type ==='tiezi' && this.imgPath.length <1){
-						this.$request('/comment',{
+						comment({
 							userid:this.$store.state.user.id,
 							articleid:this.$store.state.reply.data.articleid,
 							txt:res,
@@ -201,7 +208,7 @@
 							second:new Date().getTime(),
 							username:this.$store.state.user.name,
 							userimg:this.$store.state.user.img
-						},'post').then(res =>{
+						}).then(res =>{
 							if(res === 0){
 								this.sendTips()
 								let that = this
@@ -218,7 +225,7 @@
 							}
 						})
 					}else if(this.$store.state.reply.type === 'comment'){
-						this.$request('/commentSon',{
+						commentSon({
 							fatherid:this.$store.state.reply.data.fatherid,
 							articleid:this.$store.state.reply.data.articleid,
 							userid:this.$store.state.user.id,
@@ -227,7 +234,7 @@
 							second:new Date().getTime(),
 							username:this.$store.state.user.name,
 							userimg:this.$store.state.user.img
-						},'post').then(res =>{
+						}).then(res =>{
 							if(res === 0){
 								this.sendTips()
 								let that = this
@@ -244,7 +251,7 @@
 							}
 						})
 					}else if(this.$store.state.reply.type === 'commentSon'){
-						this.$request('/commentSontwo',{
+						commentSontwo({
 							fatherid:this.$store.state.reply.data.fatherid,
 							articleid:this.$store.state.reply.data.articleid,
 							userid:this.$store.state.user.id,
@@ -255,7 +262,7 @@
 							userimg:this.$store.state.user.img,
 							parentUserid:this.$store.state.reply.data.parentUserid,
 							parentUserName:this.$store.state.reply.data.parentUserName,
-						},'post').then( res =>{
+						}).then( res =>{
 							if(res === 0){
 								this.sendTips()
 								let that = this

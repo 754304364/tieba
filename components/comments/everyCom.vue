@@ -25,6 +25,7 @@
 </template>
 
 <script>
+	import { queryComSon } from '../../global/api.js'
 	import commentSon from './commentSon.vue'
 	export default{
 		name:'everyCom',
@@ -61,7 +62,7 @@
 		//res:comments组件传来的数据
 		props:['storey','res'],
 		created() {
-			this.$request('/queryComSon',{fatherid:this.res.id},'post').then(res =>{
+			queryComSon(this.res.id).then(res =>{
 				if(res !=='0'){
 					this.data = res
 				}

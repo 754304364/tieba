@@ -38,6 +38,7 @@
 </template>
 
 <script>
+	import {rewardArticle,support} from '../global/api.js'
 	export default{
 		name:'acticle-content',
 		props:['res'],
@@ -68,15 +69,12 @@
 					
 				}else if(this.isDz === true){
 				}else{
-					this.$request('/rewardArticle',{
-					id:id,
-					userid:this.$store.state.user.id
-					},'post').then( res =>{
+					rewardArticle(id).then(res =>{
 						if(res === 0){
 							this.res.dznum ++
 							this.isDz = true
 							this.dzSrc = '/static/dianzan2.png'
-							this.$request(`/support?id=${id}&userid=${this.$store.state.user.id}`,{},'get')
+							support(id,this.$store.state.user.id)
 						}
 					})
 				}

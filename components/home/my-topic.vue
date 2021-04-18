@@ -24,6 +24,7 @@
 </template>
 
 <script>
+	import {allFollowTopic} from '../../global/api.js'
 	export default{
 		name:'mytopic',
 		data(){
@@ -39,9 +40,8 @@
 		watch:{
 			user(val){
 				let arr = []
-				
-				for(let i = 0;i<this.user.followTopic.length;i++){
-					arr[i] = this.$request(`/allFollowTopic?id=${this.user.followTopic[i]}`,{},'get')
+					for(let i = 0;i<this.user.followTopic.length;i++){
+						arr[i] = allFollowTopic(this.user.followTopic[i])
 				}
 				Promise.all(arr).then(res =>{
 					this.followTopic = res
@@ -55,7 +55,7 @@
 				})
 			},
 			allFollowTopic(id){
-				this.$request(`/allFollowTopic?id=${id}`,{},'get')
+				allFollowTopic(id)
 			},
 			// 点击跳转进吧
 			toTopic(id){
@@ -69,7 +69,7 @@
 			if(this.user !== null){
 				console.log(this.user.followTopic)
 				for(let i = 0;i<this.user.followTopic.length;i++){
-					arr[i] = this.$request(`/allFollowTopic?id=${this.user.followTopic[i]}`,{},'get')
+					arr[i] = allFollowTopic(this.user.followTopic[i])
 				}
 				Promise.all(arr).then(res =>{
 					this.followTopic = res

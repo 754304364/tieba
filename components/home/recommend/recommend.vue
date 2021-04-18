@@ -50,6 +50,7 @@
 </template>
 
 <script>
+	import {rewardArticle} from '../../../global/api.js'
 	export default{
 		name:'recommend',
 		data(){
@@ -86,9 +87,7 @@
 						url:'../login/login'
 					})
 				}else{
-					this.$request('/rewardArticle',{
-					id:id
-					},'post').then( res =>{
+					rewardArticle(id).then(res =>{
 						this.article[index].dznum ++
 					})
 				}

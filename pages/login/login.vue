@@ -12,6 +12,7 @@
 </template>
 
 <script>
+	import {login,registered,selectuser} from '../../global/api.js'
 	export default{
 		name:'login',
 		data(){
@@ -43,20 +44,14 @@
 		methods:{
 			login(){
 				if(!this.userAccount || !this.userPassword){
-					
 				}else{
-					this.$request('/login',{
-						account:this.userAccount,
-						password:this.userPassword
-					},'post').then(res =>{
+					login({account:this.userAccount,password:this.userPassword}).then(res =>{
 						switch(res){
 							case 0: 
 								this.loginMes ='登录成功';
 								this.$store.commit('updateLogin');
 								this.$store.commit('updateUserAccount',this.userAccount);
-								this.$request('/selectuser',{
-									account:this.userAccount
-								},'post').then(res =>{
+								selectuser({account:this.userAccount}).then(res =>{
 									this.$store.commit('updateUser',res[0])
 								});
 								uni.navigateBack({
@@ -69,15 +64,12 @@
 							case 1:
 								this.loginMes ="用户名或密码错误！";
 								break;
-							}
+						}
 					})
 				}
 			},
 			registered(){
-				this.$request('/registered',{
-					account:this.userAccount,
-					password:this.userPassword
-				},'post').then( res =>{
+				registered({account:this.userAccount,password:this.userPassword}).then( res =>{
 					switch(res){
 					    case 0:this.loginMes ="注册成功";this.login();
 					    break;

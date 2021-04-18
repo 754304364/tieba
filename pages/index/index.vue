@@ -59,6 +59,7 @@
 
 
 <script>
+	import {selectArticle,selectTopic,selectFollowActicle} from '../../global/api.js'
 	import follow from '../../components/home/follow.vue'
 	import recommend from "../../components/home/recommend/recommend.vue"
 	export default {
@@ -147,20 +148,19 @@
 			},
 			// 首页 - 推荐 网络请求
 			recommend(){
-				this.$request('/selectArticle','','get').then(res =>{
+				selectArticle().then(res =>{
+					console.log(res)
 					this.recommendData.article = res
 					for(let i = 0;i<res.length;i++){
 						this.recommendData.topicId.push(res[i].topicid)
 					}
 				}).then(() =>{
 					for(let i = 0;i < this.recommendData.topicId.length;i++){
-					this.$request('/selectTopic',{
-						id:this.recommendData.topicId[i]
-					},'post').then(res =>{
-						this.$set(this.recommendData.article[i],'baimg',res.img)
-						this.$set(this.recommendData.article[i],'name',res.name)
-						this.$set(this.recommendData.article[i],'guanzhu',res.guanzhu)
-						this.$set(this.recommendData.article[i],'tiezi',res.tiezi)
+						selectTopic(this.recommendData.topicId[i]).then(res =>{
+							this.$set(this.recommendData.article[i],'baimg',res.img)
+							this.$set(this.recommendData.article[i],'name',res.name)
+							this.$set(this.recommendData.article[i],'guanzhu',res.guanzhu)
+							this.$set(this.recommendData.article[i],'tiezi',res.tiezi)
 						})
 					}	
 				})
@@ -170,9 +170,8 @@
 					let requestArr= []
 					let arr =JSON.parse(JSON.stringify(this.$store.state.user.followUser))
 					for(let i = 0;i<arr.length;i++){
-						requestArr[i] = this.$request(`/selectFollowActicle?id=${arr[i]}`,{},'get')
+						requestArr[i] = selectFollowActicle(arr[i])	
 					}
-					
 					Promise.all(requestArr).then(res =>{
 						//将所有结果放入数组
 						for(let i = 0;i<res.length;i++){

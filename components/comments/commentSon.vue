@@ -40,6 +40,7 @@
 </template>
 
 <script>
+	import { queryEveryComSon } from '../../global/api.js'
 	export default{
 		name:'commentSon',
 		// 获取父级评论的id
@@ -59,13 +60,12 @@
 				console.log(123)
 			},
 			change(e){
-				// console.log(e)
 			},
 			open(){
 				this.$refs.popup.open()
 				if(this.count === true){
 					this.count = false
-					this.$request('/queryEveryComSon',{fatherid:this.res.fatherid},'post').then(res =>{this.sonRes = res})	
+					queryEveryComSon(this.res.fatherid).then(res =>{this.sonRes = res})
 				}	
 			},
 			toReply(item){
