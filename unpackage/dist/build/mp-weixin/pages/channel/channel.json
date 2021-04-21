@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "acticle-content": "/components/acticle-content/acticle-content"
+  }
+}

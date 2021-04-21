@@ -1,5 +1,5 @@
 {
-    "name" : "百度贴吧",
+    "name" : "贴吧",
     "appid" : "__UNI__28F095C",
     "description" : "",
     "versionName" : "1.0.0",
@@ -84,7 +84,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx7dec24653af73aec",
         "setting" : {
             "urlCheck" : false
         },

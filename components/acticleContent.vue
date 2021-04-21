@@ -28,7 +28,8 @@
 				</view>
 			</view>
 		</view>
-		<video v-if="res.video !== ''" style="width: 100%;" :src="res.video" controls ></video>
+		<video v-if="res.video !== ''" style="width: 100%;" :src="res.video" poster="http://www.res.goomee.top/image/acticle/1618632543164_5622963FED5C1721D974F3EFB9BF7A62.jpg" controls ></video>	
+		<!-- <image class="zu_logo" :src="res.video+ '?x-oss-process=video/snapshot,t_0,f_jpg'" mode=""></image> -->
 		<view class="foot">
 			<view class="share"><image class="img" src="../static/share.png"></image><text>{{res.sharenum}}</text></view>
 			<view class="comment"><image class="img" src="../static/huifu.png" ></image><text>{{res.commentnum}}</text></view>

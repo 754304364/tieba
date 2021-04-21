@@ -25,11 +25,17 @@
 /* 透明度 */
 /* 文章场景相关 */
 .comment-class {
-  height: 20px;
-  line-height: 20px;
+  height: 25px;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  line-height: 25px;
   font-size: 14px;
   padding: 5px;
-  border-top: 3px solid #ededed;
+}
+.comment-class::after {
+  display: block;
+  content: '';
+  clear: both;
 }
 .comment-class .showLeft {
   font-weight: bold;
@@ -39,24 +45,24 @@
 }
 .comment-class .text-left {
   display: inline-block;
-  height: 20px;
-  line-height: 20px;
+  height: 25px;
+  line-height: 25px;
   margin-right: 5px;
 }
 .comment-class .right {
   display: inline-block;
   float: right;
-  height: 16px;
-  line-height: 16px;
+  height: 25px;
+  line-height: 21px;
   padding: 2px;
-  background-color: #dcdcdc;
+  background-color: #f0f0f0;
   -webkit-border-radius: 10px;
           border-radius: 10px;
 }
 .comment-class .right .right-txt {
   display: inline-block;
-  height: 16px;
-  line-height: 16px;
+  height: 21px;
+  line-height: 21px;
   padding: 0 5px;
   -webkit-border-radius: 10px;
           border-radius: 10px;

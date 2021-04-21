@@ -1,0 +1,1 @@
+page{background-color:#fff}.input{width:70%;margin:0 auto;height:40px;padding:5px 5%;-webkit-border-radius:20px;border-radius:20px;background-color:#ededed;margin-top:50px}.login{width:80px;height:80px;line-height:80px;margin-top:50px;-webkit-border-radius:50%;border-radius:50%}

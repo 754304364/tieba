@@ -8,6 +8,7 @@
 	@import "uview-ui/index.scss";
 	page{
 		background-color: rgb(245,245,245);
+		font-size: 16px;
 		/* padding: 0 15rpx; */
 	}
 	/*每个页面公共css */

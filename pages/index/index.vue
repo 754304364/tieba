@@ -18,21 +18,23 @@
 			<view class="rect-li"><u-image class='rect-image' src="/static/evaluation.png" border-radius='20' width='30px' height='30px' mode=""></u-image><text class="text">评价</text></view>
 		</view>
 		
+		<u-sticky>
+			<u-tabs-swiper
+			class='tabs-swiper'
+			ref="uTabs" 
+			:list="list" 
+			bg-color='#ededed;'
+			:current="current" 
+			@change="tabsChange" 
+			:is-scroll="false"
+			swiperWidth="750">
+			</u-tabs-swiper>
+		</u-sticky>
 		
-		<u-tabs-swiper
-		class='tabs-swiper'
-		ref="uTabs" 
-		:list="list" 
-		bg-color='#ededed;'
-		:current="current" 
-		@change="tabsChange" 
-		:is-scroll="false"
-		swiperWidth="750">
-		</u-tabs-swiper>
 		
-		<swiper class="swiper" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish" >
+		<!-- <swiper class="swiper" duration='300' @change='change' :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish" >
 			<swiper-item class="swiper-item">
-				<scroll-view scroll-y style="width: 100%;">
+				<scroll-view  scroll-y style="width: 100%;">
 					<follow :followData='followData' v-if="followShow"></follow>
 				</scroll-view>
 			</swiper-item>
@@ -50,106 +52,109 @@
 				</scroll-view>
 			</swiper-item>
 			<swiper-item class="swiper-item" style="overflow-y: auto;">
-				<scroll-view scroll-y style="width: 100%;">
+				<scroll-view  scroll-y style="width: 100%;">
+					<video-page v-if="videoPageShow" :res='videoPageArr'></video-page>
 				</scroll-view>
 			</swiper-item>
-		</swiper>
+		</swiper> -->
+		<view>
+			<follow v-show="current===0" :followData='followData'></follow>
+			<recommend v-show="current===1" :recommendData='recommendData'></recommend>
+			<video-page v-show="current===4" :res='videoPageArr'></video-page>
+		</view>
 	</view>
 </template>
 
 
 <script>
-	import {selectArticle,selectTopic,selectFollowActicle} from '../../global/api.js'
+	import {selectArticle,selectTopic,selectFollowActicle,videoPageRequest} from '../../global/api.js'
 	import follow from '../../components/home/follow.vue'
 	import recommend from "../../components/home/recommend/recommend.vue"
+	import videoPage from '../../components/home/video-page.vue'
 	export default {
 		data() {
 			return {
-				list: [{
-					name: '关注'
-				}, {
-					name: '推荐'
-				}, {
-					name: '热榜',
-				}, {
-					name:'直播'
-				}, {
-					name:'视频号'
-				}],
-				tabs:[1,2,3,4,5],
+				list: [{name: '关注'}, {name: '推荐'}, {name: '热榜',}, {name:'直播'}, {name:'视频号'}],
+				// tabs:[1,2,3,4,5],
 				current: 1, // tabs组件的current值，表示当前活动的tab选项
-				swiperCurrent: 1, // swiper组件的current值，表示当前那个swiper-item是活动的
 				maskShow:false,
 				followShow:false,
+				videoPageShow:false,
 				recommendData:{   //推荐区域获取的数据
 					article:[],
 					topicId:[],
 				},
 				followData:{
 					acticleArr:[]
-				}
-				
+				},
+				videoPageArr:[],
 			}
 		},
 		components:{
-			recommend,follow
+			recommend,follow,videoPage
 		},
-		watch:{
-			current(){
-				this.followShow = true
+		computed:{
+			user(){
+				return this.$store.state.user
 			}
 		},
-		
+		watch:{
+			current(val){
+				switch(val){
+					case 0:this.followShow=true;break;
+					case 4:this.videoPageShow = true;break;
+				}
+			},
+			followShow(val){
+				this.followRequest()
+			},
+			user(){
+				this.followRequest()
+			},
+			videoPageShow(val){
+				this.videoPageRequest()
+			}
+		},
 		onPullDownRefresh() {
 			switch(this.current){
 				case 0:this.followData.acticleArr=[];this.followRequest();this.$nextTick(() =>{uni.stopPullDownRefresh();});break;
 				case 1:this.recommendData={article:[],topicId:[]};this.recommend();this.$nextTick(() =>{uni.stopPullDownRefresh();});break;
+				case 4:this.videoPageArr = [];this.videoPageRequest();this.$nextTick(() =>{uni.stopPullDownRefresh();});break;
 			}
 		},
-		methods:{
-			//跳转搜索页面
-			toSearch(){
-				uni.navigateTo({
-					url:'../search/search'
-				})
-			},
-			//点击 右上角 发布 事件
-			reply(){
-				this.maskShow = true
-			},
-			//跳转发帖页面
-			toFatie(){
-				if(!this.$store.state.login){
+			methods:{	
+				//跳转搜索页面
+				toSearch(){
 					uni.navigateTo({
-						url:'../login/login'
+						url:'../search/search'
 					})
-				}else{
-					uni.navigateTo({
-						url:'../fatie/fatie'
-					})
-				}
-			},
-			// tabs通知swiper切换
+				},
+				//点击 右上角 发布 事件
+				reply(){
+					this.maskShow = true
+				},
+				//跳转发帖页面
+				toFatie(){
+					if(!this.$store.state.login){
+						uni.navigateTo({
+							url:'../login/login'
+						})
+					}else{
+						uni.navigateTo({
+							url:'../fatie/fatie'
+						})
+					}
+				},
 			tabsChange(index) {
+				this.current = index
 				this.swiperCurrent = index;
 			},
-			// swiper-item左右移动，通知tabs的滑块跟随移动
-			transition(e) {
-				let dx = e.detail.dx;
-				this.$refs.uTabs.setDx(dx);
-			},
-			// 由于swiper的内部机制问题，快速切换swiper不会触发dx的连续变化，需要在结束时重置状态
-			// swiper滑动结束，分别设置tabs和swiper的状态
-			animationfinish(e) {
-				let current = e.detail.current;
-				this.$refs.uTabs.setFinishCurrent(current);
-				this.swiperCurrent = current;
-				this.current = current;
+			change(e){
+				// console.log(e)
 			},
 			// 首页 - 推荐 网络请求
 			recommend(){
 				selectArticle().then(res =>{
-					console.log(res)
 					this.recommendData.article = res
 					for(let i = 0;i<res.length;i++){
 						this.recommendData.topicId.push(res[i].topicid)
@@ -165,6 +170,7 @@
 					}	
 				})
 			},
+			// 关注页网络请求
 			followRequest(){
 				if(this.$store.state.user !== null){
 					let requestArr= []
@@ -192,11 +198,15 @@
 					})
 				}
 			},
-			
+			// 视频号 - 网络请求
+			videoPageRequest(){
+				videoPageRequest().then(res =>{
+					this.videoPageArr = res
+				})
+			}
 		},
 		onLoad() {
 			this.recommend()
-			this.followRequest()
 		}
 	}
 </script>
@@ -254,14 +264,7 @@
 		 }
 	 }
 	 .tabs-swiper{
-		 position: fixed;
-	 }
-	 .swiper{
-		 margin-top: 44px;
-		 min-height: calc(100vh - 140px);
-		 .swiper-item{
-		 	overflow-y: auto;
-		 }
+		 background-color: #fff;
 	 }
 	 
 </style>

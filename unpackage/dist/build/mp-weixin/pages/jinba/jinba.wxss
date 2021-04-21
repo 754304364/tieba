@@ -1,0 +1,1 @@
+.topic-square-left{float:left}.topic-square-left .topic-class{width:150rpx;height:150rpx;line-height:150rpx;text-align:center;background-color:#f5f5f5}.topic-square-left .selected{background-color:#fff}.topic-square-left .selected::after{position:absolute;display:block;background-color:#8a2be2;content:"";margin-top:-150rpx;height:150rpx;width:5px}

@@ -1,0 +1,1 @@
+page{background-color:#f9f9f9;padding:20px 15rpx 0}.user-img{float:left;height:50px;width:50px;-webkit-border-radius:50%;border-radius:50%}.user-data{float:left;height:50px;margin-left:20px}.user-data .user-name{height:25px;line-height:25px;font-weight:700}.user-data .user-others{height:25px;line-height:25px}

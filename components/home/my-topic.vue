@@ -43,6 +43,7 @@
 					for(let i = 0;i<this.user.followTopic.length;i++){
 						arr[i] = allFollowTopic(this.user.followTopic[i])
 				}
+				
 				Promise.all(arr).then(res =>{
 					this.followTopic = res
 				})
@@ -67,7 +68,6 @@
 		created() {
 			let arr = []
 			if(this.user !== null){
-				console.log(this.user.followTopic)
 				for(let i = 0;i<this.user.followTopic.length;i++){
 					arr[i] = allFollowTopic(this.user.followTopic[i])
 				}

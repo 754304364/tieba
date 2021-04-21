@@ -14,6 +14,8 @@ export const selectArticle = data => request('/selectArticle', {}, 'get');
  
  // 请求帖子内容
  export const selectArticleId = data => request(`/selectArticleId?id=${data}`, {}, 'get');
+ // 首页 视频号
+ export const videoPageRequest = () => request('/videoPage',{},'get')
  
  // 请求 回复内容
  export const querycomment = data => request(`/querycomment?id=${data}`, {}, 'get');
@@ -43,6 +45,6 @@ export const commentSonTwo = data => request('/commentSonTwo', data, 'POST');
  
  
  // 获取登录用户关注的所有 吧
- export const allFollowTopic = (id) => request('/rewardArticle?id='+ id, {}, 'get');
+ export const allFollowTopic = (id) => request('/allFollowTopic?id='+ id, {}, 'get');
  
  

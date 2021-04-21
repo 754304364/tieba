@@ -8,8 +8,8 @@
   },
   "compileType": "miniprogram",
   "libVersion": "",
-  "appid": "touristappid",
-  "projectname": "百度贴吧",
+  "appid": "wx7dec24653af73aec",
+  "projectname": "贴吧",
   "condition": {
     "search": {
       "current": -1,

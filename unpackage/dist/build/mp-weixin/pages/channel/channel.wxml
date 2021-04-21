@@ -1,0 +1,1 @@
+<view><block wx:for="{{article}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view><acticle-content vue-id="{{'216e6c90-1-'+index}}" res="{{item}}" bind:__l="__l"></acticle-content></view></block></view>

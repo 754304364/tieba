@@ -22,7 +22,6 @@
 </template>
 
 <script>
-	import acticleContent from '../acticleContent.vue'
 	export default{
 		name:'follow',
 		data(){
@@ -30,7 +29,6 @@
 			}
 		},
 		props:['followData'],
-		components:{acticleContent},
 		methods:{
 			toLogin(){
 				uni.navigateTo({

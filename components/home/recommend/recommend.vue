@@ -24,18 +24,20 @@
 			<view class="content">
 				<view class="txt" v-html="item.txt"></view>
 				<!-- 中间图片区域 -->
-				 <view v-for="(src,num) in (item.img)" :key='num' style="float: left;">
-					 <image
+				
+				<view v-for="(src,num) in (item.img)" :key='num' style="float: left;">
+					<image
 					 class="article-img"
-					  v-if="num < 3 && item.img"
-					  :style="{width:(item.img).length<2 ? '450rpx' : '220rpx',height:(item.img).length<2 ? '500rpx' : '220rpx'}"  
-					  :src="src"
-					  mode="aspectFill"
-					  @click.stop="previewImage(item.img,src)"
-					  :key='num'>
-					  </image>
-				  </view>
-				  <video v-if="item.video !== ''" style="width: 100%;" :src="item.video" controls ></video>
+					 v-if="num < 3 && item.img"
+					 :style="{width:(item.img).length<2 ? '450rpx' : '220rpx',height:(item.img).length<2 ? '500rpx' : '220rpx'}"  
+					 :src="src"
+					 mode="aspectFill"
+					 @click.stop="previewImage(item.img,src)"
+					 :key='num'>
+					</image>
+				 </view>
+				<video v-if="item.video !== ''" style="width: 100%;" :poster="src"  :src="item.video"  controls >
+				</video>
 				<view style="clear:both;"></view>
 			</view>
 			
@@ -55,6 +57,7 @@
 		name:'recommend',
 		data(){
 			return{
+				src:'http://www.res.goomee.top/image/acticle/1618632543164_5622963FED5C1721D974F3EFB9BF7A62.jpg'
 			}
 		},
 		props:['recommendData'],
