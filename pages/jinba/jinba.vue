@@ -36,7 +36,7 @@
 </template>
 
 <script>
-	import myTopic from '../../components/home/my-topic.vue'
+	import myTopic from './my-topic.vue'
 	export default{
 		data(){
 			return{

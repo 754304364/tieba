@@ -31,32 +31,6 @@
 			</u-tabs-swiper>
 		</u-sticky>
 		
-		
-		<!-- <swiper class="swiper" duration='300' @change='change' :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish" >
-			<swiper-item class="swiper-item">
-				<scroll-view  scroll-y style="width: 100%;">
-					<follow :followData='followData' v-if="followShow"></follow>
-				</scroll-view>
-			</swiper-item>
-			<swiper-item class="swiper-item">
-				<scroll-view scroll-y style="width: 100%;">
-					<recommend :recommendData='recommendData'></recommend>
-				</scroll-view>
-			</swiper-item>
-			<swiper-item class="swiper-item">
-				<scroll-view scroll-y style="width: 100%;">
-				</scroll-view>
-			</swiper-item>
-			<swiper-item class="swiper-item">
-				<scroll-view scroll-y style="width: 100%;">
-				</scroll-view>
-			</swiper-item>
-			<swiper-item class="swiper-item" style="overflow-y: auto;">
-				<scroll-view  scroll-y style="width: 100%;">
-					<video-page v-if="videoPageShow" :res='videoPageArr'></video-page>
-				</scroll-view>
-			</swiper-item>
-		</swiper> -->
 		<view>
 			<follow v-show="current===0" :followData='followData'></follow>
 			<recommend v-show="current===1" :recommendData='recommendData'></recommend>
@@ -68,9 +42,9 @@
 
 <script>
 	import {selectArticle,selectTopic,selectFollowActicle,videoPageRequest} from '../../global/api.js'
-	import follow from '../../components/home/follow.vue'
-	import recommend from "../../components/home/recommend/recommend.vue"
-	import videoPage from '../../components/home/video-page.vue'
+	import follow from './follow.vue'
+	import recommend from "./recommend.vue"
+	import videoPage from './video-page.vue'
 	export default {
 		data() {
 			return {

@@ -14,6 +14,11 @@
 			}
 		},
 		created(){
+			async function a(){
+				await selectArticle()
+				
+			}
+			a()
 		}
 	}
 </script>

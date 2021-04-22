@@ -17,7 +17,7 @@
 		<view class="container"  @touchmove='touchmove($event)' @touchstart='touchstart($event)' @touchend='touchend($event)'>
 			<!--  最新 -->
 			<view class="item new-article" :class="{transition:transition}" :style="{marginLeft:left + 'px'}">
-				<acticle-content v-for='(item,index) in article' :key='index' :res='item'></acticle-content>
+				<article-content v-for='(item,index) in article' :key='index' :res='item'></article-content>
 			</view>
 			<!-- 精华 -->
 			<view class="item" style="background-color: blue;" >
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-	import acticleContent from '../../components/acticleContent.vue'
+	// import acticleContent from '../../components/acticleContent.vue'
 	export default {
 		data() {
 			return {
@@ -47,7 +47,7 @@
 				followTxt:'关注' //关注按钮的文字
 			};
 		},
-		components:{acticleContent},
+		// components:{acticleContent},
 		onLoad(date) {
 			uni.showLoading({
 			    title: '加载中'

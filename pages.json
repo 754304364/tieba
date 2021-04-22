@@ -17,7 +17,11 @@
 		},{
 			"path":"pages/news/news"
 		},{
-			"path":"pages/user/user"
+			"path":"pages/user/user",
+			"style":{
+				"navigationBarTitleText":"用户界面",
+				"navigationBarBackgroundColor":"#fff"
+			}
 		},{
 			"path":"pages/fatie/fatie",
 			"style":{
